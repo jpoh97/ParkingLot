@@ -28,7 +28,7 @@ pipeline {
 			steps{
 				echo "------------>Compile<------------"
 				sh 'gradle --b ./parkinglot-backend/build.gradle compileJava'
-                sh 'gradle clean'
+                sh 'gradle --b ./parkinglot-backend/build.gradle clean'
 			}
 		}
         stage('Unit Tests') {
