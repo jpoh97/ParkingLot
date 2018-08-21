@@ -34,7 +34,7 @@ pipeline {
             steps {
                 echo "------------>Unit Tests<------------"
                 sh 'gradle --b ./parkinglot-backend/build.gradle test'
-                junit '**/build/test-results/test/*.xml'
+                
             }
         }
         stage('Static Code Analysis') {
