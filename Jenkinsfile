@@ -33,8 +33,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 echo "------------>Unit Tests<------------"
-                sh 'gradle --b ./parkinglot-backend/build.gradle test'
-                
+                sh 'gradle --b ./parkinglot-backend/build.gradle test'                
             }
         }
         stage('Static Code Analysis') {
