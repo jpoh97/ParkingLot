@@ -28,12 +28,14 @@ pipeline {
 			steps{
 				echo "------------>Compile<------------"
 				sh 'gradle --b ./parkinglot-backend/build.gradle compileJava'
+                sh 'gradle clean'
 			}
 		}
         stage('Unit Tests') {
             steps {
                 echo "------------>Unit Tests<------------"
-                sh 'gradle --b ./parkinglot-backend/build.gradle test'                
+                sh 'gradle --b ./parkinglot-backend/build.gradle test'
+                junit '**/build/test-results/test/*.xml'             
             }
         }
         stage('Static Code Analysis') {
