@@ -6,7 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Data
 public class Invoice {
@@ -15,7 +16,7 @@ public class Invoice {
     private Integer id;
     @ManyToOne
     private Vehicle vehicle;
-    private Date entryDate;
-    private Date departureDate;
-    private Long price;
+    private LocalDate entryDate;
+    private Optional<LocalDate> departureDate;
+    private Optional<Long> price;
 }
