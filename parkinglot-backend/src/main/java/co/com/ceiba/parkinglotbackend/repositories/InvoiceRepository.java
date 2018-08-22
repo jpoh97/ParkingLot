@@ -15,4 +15,4 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer> {
 
     Stream<Invoice> findAllByVehicleTypeAndDepartureDateIsNull(VehicleType vehicleType);
 
-}
+} 
