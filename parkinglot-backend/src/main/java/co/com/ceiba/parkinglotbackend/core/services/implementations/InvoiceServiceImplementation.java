@@ -64,7 +64,7 @@ public class InvoiceServiceImplementation implements InvoiceService {
         try {
             Long price = calculatePrice(invoice.getVehicle().getVehicleType(), invoice.getEntryDate(), LocalDate.now());
         } catch (InvalidDatesException e) {
-            throw new InvalidDatesException();
+            throw new InvalidDatesException(); 
         }
         return invoice;
     }
