@@ -1,12 +1,10 @@
-package co.com.ceiba.parkinglotbackend.services.interfaces;
+package co.com.ceiba.parkinglotbackend.core.services.interfaces;
 
-import co.com.ceiba.parkinglotbackend.entities.Invoice;
+import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 
 import java.util.stream.Stream;
 
 public interface ParkingAttendantService {
-
-    Boolean isLicensePlateStartingWithA(String licensePlate);
 
     Boolean isLicensePlateEnabledToEnter(String licensePlate);
 

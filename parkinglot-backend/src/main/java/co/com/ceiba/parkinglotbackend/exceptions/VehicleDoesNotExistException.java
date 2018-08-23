@@ -1,8 +1,8 @@
 package co.com.ceiba.parkinglotbackend.exceptions;
 
-public class VehicleLicensePlateInvalidException extends Exception {
+public class VehicleDoesNotExistException extends Exception {
 
-    public VehicleLicensePlateInvalidException() {
+    public VehicleDoesNotExistException() {
         super("Vehicle does not exist, check license plate");
     }
 }

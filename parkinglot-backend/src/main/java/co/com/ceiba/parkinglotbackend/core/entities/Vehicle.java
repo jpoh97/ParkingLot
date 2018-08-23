@@ -1,4 +1,4 @@
-package co.com.ceiba.parkinglotbackend.entities;
+package co.com.ceiba.parkinglotbackend.core.entities;
 
 import lombok.Data;
 

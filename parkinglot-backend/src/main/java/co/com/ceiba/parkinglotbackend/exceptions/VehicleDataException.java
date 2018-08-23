@@ -1,8 +1,8 @@
 package co.com.ceiba.parkinglotbackend.exceptions;
 
-public class VehicleDataErrorException extends Exception {
+public class VehicleDataException extends Exception {
 
-    public VehicleDataErrorException() {
+    public VehicleDataException() {
         super("Vehicle data is wrong");
     }
 }
