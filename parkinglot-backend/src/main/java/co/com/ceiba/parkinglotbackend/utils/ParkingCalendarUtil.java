@@ -1,10 +1,8 @@
 package co.com.ceiba.parkinglotbackend.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class ParkingCalendarUtil {
@@ -18,25 +16,36 @@ public class ParkingCalendarUtil {
         return dayOfWeek == DayOfWeek.SUNDAY || dayOfWeek == DayOfWeek.MONDAY;
     }
 
-    public static DifferenceTimes getDifferenceTime(LocalDate entryDate, LocalDate departureDate) {
+    public static DifferenceTimes getDifferenceTime(LocalDateTime entryDate, LocalDateTime departureDate) {
         Long minutes = getDifferenceMinutes(entryDate, departureDate);
         Long days = minutes / MINUTES_IN_A_DAY;
         Long remainingMinutes = minutes - days * MINUTES_IN_A_DAY;
-        Long hours = remainingMinutes / 60;
-        if(remainingMinutes % 60 != 0) {
+        Long hours = remainingMinutes / MINUTES_IN_A_HOUR;
+        if(remainingMinutes % MINUTES_IN_A_HOUR != 0) {
             hours++;
         }
         return new DifferenceTimes(days, hours);
     }
 
-    private static Long getDifferenceMinutes(LocalDate entryDate, LocalDate departureDate) {
+    private static Long getDifferenceMinutes(LocalDateTime entryDate, LocalDateTime departureDate) {
         return ChronoUnit.MINUTES.between(departureDate, entryDate);
     }
 
-    @Data
-    @AllArgsConstructor
     public static class DifferenceTimes {
         private Long days;
         private Long hours;
+
+        public DifferenceTimes(Long days, Long hours) {
+            this.days = days;
+            this.hours = hours;
+        }
+
+        public Long getDays() {
+            return days;
+        }
+
+        public Long getHours() {
+            return hours;
+        }
     }
 }

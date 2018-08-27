@@ -1,12 +1,80 @@
 package co.com.ceiba.parkinglotbackend.core.entities;
 
-public enum ParkingRates {
-    CAR_HOUR_PRICE(1000),
-    CAR_DAY_PRICE(8000),
-    MOTORCYCLE_HOUR_PRICE(500),
-    MOTORCYCLE_DAY_PRICE(4000);
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
-    private final Integer id;
-    ParkingRates(Integer id) { this.id = id; }
-    public int getValue() { return id; }
+@Entity
+public class ParkingRates {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @NotNull
+    private Long hourPrice;
+    @NotNull
+    private Long dayPrice;
+    private Long extraPrice;
+    @NotNull
+    private LocalDate creationDate;
+    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @NotNull
+    private VehicleType vehicleType;
+    @NotNull
+    private Boolean active;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Long getHourPrice() {
+        return hourPrice;
+    }
+
+    public void setHourPrice(Long hourPrice) {
+        this.hourPrice = hourPrice;
+    }
+
+    public Long getDayPrice() {
+        return dayPrice;
+    }
+
+    public void setDayPrice(Long dayPrice) {
+        this.dayPrice = dayPrice;
+    }
+
+    public Long getExtraPrice() {
+        return extraPrice;
+    }
+
+    public void setExtraPrice(Long extraPrice) {
+        this.extraPrice = extraPrice;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

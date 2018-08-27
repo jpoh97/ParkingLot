@@ -1,25 +1,78 @@
 package co.com.ceiba.parkinglotbackend.core.entities;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Data
-@RequiredArgsConstructor
+@Entity
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @ManyToOne
-    @NonNull private Vehicle vehicle;
-    @NonNull private LocalDate entryDate;
-    private Optional<LocalDate> departureDate;
-    private Optional<Long> price;
+    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @NotNull
+    private Vehicle vehicle;
+    @NotNull
+    private LocalDateTime entryDate;
+    private LocalDateTime departureDate;
+    private Long price;
+    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @NotNull
+    private ParkingRates parkingRates;
+
+    public Invoice(Vehicle vehicle, LocalDateTime entryDate, ParkingRates parkingRates) {
+        this.vehicle = vehicle;
+        this.entryDate = entryDate;
+        this.parkingRates = parkingRates;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public LocalDateTime getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(LocalDateTime entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public Optional<LocalDateTime> getDepartureDate() {
+        return Optional.ofNullable(departureDate);
+    }
+
+    public void setDepartureDate(LocalDateTime departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public Optional<Long> getPrice() {
+        return Optional.ofNullable(price);
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public ParkingRates getParkingRates() {
+        return parkingRates;
+    }
+
+    public void setParkingRates(ParkingRates parkingRates) {
+        this.parkingRates = parkingRates;
+    }
 }
