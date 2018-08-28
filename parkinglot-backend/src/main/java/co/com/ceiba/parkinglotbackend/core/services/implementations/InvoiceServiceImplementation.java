@@ -17,13 +17,13 @@ public class InvoiceServiceImplementation implements InvoiceService {
         this.invoiceRepository = invoiceRepository;
     }
 
-    public Stream<Invoice> getParkingSpacesInUseForVehicleType(Integer vehicleTypeId) {
-        Stream<Invoice> vehiclesInParkingLot = invoiceRepository.findAllByVehicleVehicleTypeIdAndDepartureDateIsNull(vehicleTypeId);
+    public Stream<Invoice> getParkingSpacesInUseForVehicleType(String vehicleTypeName) {
+        Stream<Invoice> vehiclesInParkingLot = invoiceRepository.findAllByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
         return vehiclesInParkingLot;
     }
 
-    public Long getParkingSpacesCountInUseForVehicleType(Integer vehicleTypeId) {
-        return invoiceRepository.countByVehicleVehicleTypeIdAndDepartureDateIsNull(vehicleTypeId);
+    public Long getParkingSpacesCountInUseForVehicleType(String vehicleTypeName) {
+        return invoiceRepository.countByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
     }
 
     public Invoice save(Invoice invoice) {

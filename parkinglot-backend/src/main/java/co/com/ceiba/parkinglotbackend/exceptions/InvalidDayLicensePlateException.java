@@ -1,6 +1,6 @@
 package co.com.ceiba.parkinglotbackend.exceptions;
 
-public class InvalidDayLicensePlateException extends Exception {
+public class InvalidDayLicensePlateException extends BaseException {
 
     public InvalidDayLicensePlateException() {
         super("The license plates that start with 'A' can only enter on Sunday or Monday");

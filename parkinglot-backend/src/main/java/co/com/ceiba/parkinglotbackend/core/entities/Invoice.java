@@ -2,14 +2,13 @@ package co.com.ceiba.parkinglotbackend.core.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
 public class Invoice {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @NotNull
@@ -27,6 +26,8 @@ public class Invoice {
         this.entryDate = entryDate;
         this.parkingRates = parkingRates;
     }
+
+    public Invoice() {}
 
     public Integer getId() {
         return id;

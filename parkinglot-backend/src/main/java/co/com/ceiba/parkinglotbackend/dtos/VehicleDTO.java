@@ -3,7 +3,7 @@ package co.com.ceiba.parkinglotbackend.dtos;
 public class VehicleDTO {
     private String licensePlate;
     private Integer cylinderCapacity;
-    private String VehicleTypeName;
+    private String vehicleTypeName;
 
     public String getLicensePlate() {
         return licensePlate;
@@ -22,10 +22,10 @@ public class VehicleDTO {
     }
 
     public String getVehicleTypeName() {
-        return VehicleTypeName;
+        return vehicleTypeName;
     }
 
     public void setVehicleTypeName(String vehicleTypeName) {
-        VehicleTypeName = vehicleTypeName;
+        this.vehicleTypeName = vehicleTypeName;
     }
 }

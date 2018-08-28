@@ -1,28 +1,20 @@
 package co.com.ceiba.parkinglotbackend.dtos;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class InvoiceDTO {
-    private Integer id;
-    private String licensePlate;
+    private String vehicleLicensePlate;
     private LocalDateTime entryDate;
-    private LocalDateTime departureDate;
-    private Long price;
+    private Optional<LocalDateTime> departureDate;
+    private Optional<Long> price;
 
-    public Integer getId() {
-        return id;
+    public String getVehicleLicensePlate() {
+        return vehicleLicensePlate;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
+    public void setVehicleLicensePlate(String vehicleLicensePlate) {
+        this.vehicleLicensePlate = vehicleLicensePlate;
     }
 
     public LocalDateTime getEntryDate() {
@@ -33,19 +25,19 @@ public class InvoiceDTO {
         this.entryDate = entryDate;
     }
 
-    public LocalDateTime getDepartureDate() {
+    public Optional<LocalDateTime> getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(LocalDateTime departureDate) {
+    public void setDepartureDate(Optional<LocalDateTime> departureDate) {
         this.departureDate = departureDate;
     }
 
-    public Long getPrice() {
+    public Optional<Long> getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Optional<Long> price) {
         this.price = price;
     }
 }

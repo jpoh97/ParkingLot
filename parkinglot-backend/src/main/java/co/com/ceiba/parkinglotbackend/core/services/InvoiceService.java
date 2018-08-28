@@ -11,7 +11,7 @@ public interface InvoiceService {
 
     Optional<Invoice> getVehicleInParking(String licensePlate);
 
-    Stream<Invoice> getParkingSpacesInUseForVehicleType(Integer vehicleTypeId);
+    Stream<Invoice> getParkingSpacesInUseForVehicleType(String vehicleTypeName);
 
-    Long getParkingSpacesCountInUseForVehicleType(Integer vehicleTypeId);
+    Long getParkingSpacesCountInUseForVehicleType(String vehicleTypeName);
 }

@@ -2,20 +2,20 @@ package co.com.ceiba.parkinglotbackend.core.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 public class VehicleType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
     private String name;
     @NotNull
     private Integer totalPlaces;
     @NotNull
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @NotNull
     private List<ParkingRates> parkingRates;
@@ -44,11 +44,11 @@ public class VehicleType {
         this.totalPlaces = totalPlaces;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

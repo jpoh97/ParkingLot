@@ -7,15 +7,16 @@ import co.com.ceiba.parkinglotbackend.applicationlogic.ParkingAttendant;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
 import co.com.ceiba.parkinglotbackend.core.services.ParkingRatesService;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
-import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
 import co.com.ceiba.parkinglotbackend.exceptions.*;
 import co.com.ceiba.parkinglotbackend.utils.ParkingCalculatorUtil;
 import co.com.ceiba.parkinglotbackend.utils.VehicleTypeEnum;
 import co.com.ceiba.parkinglotbackend.validations.ParkingValidation;
-import co.com.ceiba.parkinglotbackend.validations.ParkingValidationFactory;
+import co.com.ceiba.parkinglotbackend.validations.implementations.InvalidDayLicensePlateValidation;
+import co.com.ceiba.parkinglotbackend.validations.implementations.NoSpaceAvailableValidation;
+import co.com.ceiba.parkinglotbackend.validations.implementations.VehicleAlreadyExistsInParkingLotValidation;
+import co.com.ceiba.parkinglotbackend.validations.implementations.VehicleDataValidation;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +25,54 @@ import java.util.Optional;
 @Component
 public class ParkingAttendantImplementation implements ParkingAttendant {
 
+    // Services
     private InvoiceService invoiceService;
     private VehicleService vehicleService;
     private ParkingRatesService parkingRatesService;
 
-    public ParkingAttendantImplementation(InvoiceService invoiceService, VehicleService vehicleService,
-                                          ParkingRatesService parkingRatesService, VehicleTypeService vehicleTypeService) {
+    // Validations
+    private InvalidDayLicensePlateValidation invalidDayLicensePlateValidation;
+    private NoSpaceAvailableValidation noSpaceAvailableValidation;
+    private VehicleDataValidation vehicleDataValidation;
+    private VehicleAlreadyExistsInParkingLotValidation vehicleAlreadyExistsInParkingLotValidation;
+
+    public ParkingAttendantImplementation(InvoiceService invoiceService,
+                                          VehicleService vehicleService,
+                                          ParkingRatesService parkingRatesService,
+                                          InvalidDayLicensePlateValidation invalidDayLicensePlateValidation,
+                                          NoSpaceAvailableValidation noSpaceAvailableValidation,
+                                          VehicleDataValidation vehicleDataValidation,
+                                          VehicleAlreadyExistsInParkingLotValidation vehicleAlreadyExistsInParkingLotValidation) {
         this.invoiceService = invoiceService;
         this.vehicleService = vehicleService;
         this.parkingRatesService = parkingRatesService;
+        this.invalidDayLicensePlateValidation = invalidDayLicensePlateValidation;
+        this.noSpaceAvailableValidation = noSpaceAvailableValidation;
+        this.vehicleDataValidation = vehicleDataValidation;
+        this.vehicleAlreadyExistsInParkingLotValidation = vehicleAlreadyExistsInParkingLotValidation;
     }
 
-    public Invoice vehicleCheckIn(String licensePlate, VehicleTypeEnum vehicleTypeEnum, Integer cylinderCapacity) throws Exception {
-        Optional<Vehicle> vehicle = vehicleService.get(Optional.ofNullable(licensePlate));
+    public Invoice vehicleCheckIn(Vehicle vehicleResponse) throws BaseException {
+        Optional<Vehicle> vehicle;
+
+        if (null == vehicleResponse.getVehicleType()
+                || null == vehicleResponse.getVehicleType().getName()
+                || null == vehicleResponse.getLicensePlate()
+                || null == vehicleResponse.getCylinderCapacity()
+                || !vehicleResponse.getCylinderCapacity().isPresent()) {
+            throw new VehicleDataException();
+        }
+        VehicleTypeEnum vehicleTypeEnum = VehicleTypeEnum.valueOf(vehicleResponse.getVehicleType().getName());
+
+        try {
+            vehicle = vehicleService.get(Optional.ofNullable(vehicleResponse.getLicensePlate()));
+        } catch (VehicleDoesNotExistException e) {
+            vehicle = Optional.ofNullable(vehicleService.getNewVehicle(vehicleResponse.getLicensePlate(), vehicleTypeEnum, vehicleResponse.getCylinderCapacity().get()));
+            vehicleService.add(vehicle);
+        }
 
         if (!vehicle.isPresent()) {
-            vehicle = Optional.ofNullable(vehicleService.getNewVehicle(licensePlate, vehicleTypeEnum, cylinderCapacity));
-            vehicleService.add(vehicle);
+            throw new VehicleDoesNotExistException();
         }
 
         validateVehicleEntry(vehicle);
@@ -57,16 +89,18 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
         return invoice;
     }
 
-    private void validateVehicleEntry(Optional<Vehicle> vehicle) throws Exception {
+    private void validateVehicleEntry(Optional<Vehicle> vehicle) throws BaseException {
         List<ParkingValidation> parkingValidations = new ArrayList<>();
-        parkingValidations.add(ParkingValidationFactory.getInstance(ParkingValidationFactory.ParkingValidationType.VEHICLE_DATA_VALIDATION));
-        parkingValidations.add(ParkingValidationFactory.getInstance(ParkingValidationFactory.ParkingValidationType.NO_SPACE_AVAILABLE));
-        parkingValidations.add(ParkingValidationFactory.getInstance(ParkingValidationFactory.ParkingValidationType.INVALID_DAY_LICENSE_PLATE));
+        parkingValidations.add(noSpaceAvailableValidation);
+        parkingValidations.add(invalidDayLicensePlateValidation);
+        parkingValidations.add(vehicleDataValidation);
+        parkingValidations.add(vehicleAlreadyExistsInParkingLotValidation);
 
         for (ParkingValidation parkingValidation : parkingValidations) {
             parkingValidation.execute(vehicle);
         }
     }
+
 
     public Invoice vehicleCheckOut(String licensePlate, LocalDateTime departureDate) throws VehicleDoesNotExistException,
             InvalidDatesException {
@@ -80,6 +114,7 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
                     invoice.get().getEntryDate(), departureDate);
             invoice.get().setPrice(price);
             invoice.get().setDepartureDate(departureDate);
+            invoiceService.save(invoice.get());
         } catch (InvalidDatesException e) {
             throw new InvalidDatesException();
         }

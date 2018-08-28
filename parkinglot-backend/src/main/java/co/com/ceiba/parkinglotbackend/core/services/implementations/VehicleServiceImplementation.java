@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -43,7 +42,7 @@ public class VehicleServiceImplementation implements VehicleService {
     }
 
     public Optional<Vehicle> add(Optional<Vehicle> newVehicle) throws VehicleDataException {
-        if (!newVehicle.isPresent() || newVehicle.get().getLicensePlate() == null) {
+        if (!newVehicle.isPresent() || newVehicle.get().getLicensePlate() == null || newVehicle.get().getVehicleType() == null) {
             throw new VehicleDataException();
         }
         Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(newVehicle.get().getLicensePlate());

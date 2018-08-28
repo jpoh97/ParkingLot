@@ -29,7 +29,7 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-hateoas")
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
 	compile("com.h2database:h2")
-	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.2.x'
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.1.1'
 
 	runtime('javax.xml.bind:jaxb-api')
 

@@ -20,7 +20,7 @@ public class ParkingCalculatorUtil {
         finalPrice = differenceTimes.getDays() * parkingRates.getDayPrice();
         finalPrice += differenceTimes.getHours() * parkingRates.getHourPrice();
 
-        if(parkingRates.getExtraPrice() != null) {
+        if(null != parkingRates.getExtraPrice()) {
             finalPrice += parkingRates.getExtraPrice();
         }
 
