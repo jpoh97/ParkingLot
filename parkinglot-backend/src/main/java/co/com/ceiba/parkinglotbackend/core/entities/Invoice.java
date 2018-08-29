@@ -57,16 +57,16 @@ public class Invoice {
         return Optional.ofNullable(departureDate);
     }
 
-    public void setDepartureDate(LocalDateTime departureDate) {
-        this.departureDate = departureDate;
+    public void setDepartureDate(Optional<LocalDateTime> departureDate) {
+        this.departureDate = departureDate.get();
     }
 
     public Optional<Long> getPrice() {
         return Optional.ofNullable(price);
     }
 
-    public void setPrice(Long price) {
-        this.price = price;
+    public void setPrice(Optional<Long> price) {
+        this.price = price.get();
     }
 
     public ParkingRates getParkingRates() {

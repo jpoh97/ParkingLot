@@ -4,9 +4,11 @@ import co.com.ceiba.parkinglotbackend.core.entities.ParkingRates;
 import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.repositories.ParkingRatesRepository;
 import co.com.ceiba.parkinglotbackend.core.services.ParkingRatesService;
+import co.com.ceiba.parkinglotbackend.utils.VehicleTypeEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -14,6 +16,10 @@ import java.util.stream.StreamSupport;
 public class ParkingRatesServiceImplementation implements ParkingRatesService {
 
     private ParkingRatesRepository parkingRatesRepository;
+
+    // Constants
+    private final Long EXTRA_VALUE_FOR_MOTORCYCLE_WITH_CYLINDER_GREATER_THAN_500 = 2000L;
+    private final Long MAXIMUM_CYLINDER_WITHOUT_EXTRA_VALUE = 500L;
 
     public ParkingRatesServiceImplementation(ParkingRatesRepository parkingRatesRepository) {
         this.parkingRatesRepository = parkingRatesRepository;
@@ -27,13 +33,24 @@ public class ParkingRatesServiceImplementation implements ParkingRatesService {
         return parkingRatesRepository.findAllByActive(active);
     }
 
-    public ParkingRates getCurrentParkingRatesFor(VehicleType vehicleType) {
+    public ParkingRates getCurrentParkingRatesFor(VehicleType vehicleType, Optional<Integer> cylinderCapacity) {
+        Long extraValue = getExtraPriceForMotorcycle(vehicleType, cylinderCapacity);
         List<ParkingRates> activeParkingRates = getCurrentParkingRates(true);
         for (ParkingRates parkingRates : activeParkingRates) {
-            if (vehicleType.getId() == parkingRates.getVehicleType().getId()) {
+            if (vehicleType.getId().equals(parkingRates.getVehicleType().getId())
+                    && extraValue.equals(parkingRates.getExtraPrice())) {
                 return parkingRates;
             }
         }
         return null;
+    }
+
+    private Long getExtraPriceForMotorcycle(VehicleType vehicleType, Optional<Integer> cylinderCapacity) {
+        Long extraValue = 0L;
+        if (vehicleType.getName().equalsIgnoreCase(VehicleTypeEnum.MOTORCYCLE.getValue())) {
+            extraValue = cylinderCapacity.isPresent() && cylinderCapacity.get() > MAXIMUM_CYLINDER_WITHOUT_EXTRA_VALUE ?
+                    EXTRA_VALUE_FOR_MOTORCYCLE_WITH_CYLINDER_GREATER_THAN_500 : 0;
+        }
+        return extraValue;
     }
 }

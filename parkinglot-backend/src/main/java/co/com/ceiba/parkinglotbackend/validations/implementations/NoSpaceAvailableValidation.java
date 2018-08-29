@@ -4,7 +4,7 @@ import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
-import co.com.ceiba.parkinglotbackend.exceptions.NoSpaceAvailableException;
+import co.com.ceiba.parkinglotbackend.exceptions.Implementations.NoSpaceAvailableException;
 import co.com.ceiba.parkinglotbackend.validations.ParkingValidation;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ public class NoSpaceAvailableValidation implements ParkingValidation {
                 vehicle.get().getVehicleType().getName());
 
         if(!vehicleType.isPresent()
-                || vehicleType.get().getTotalPlaces() <= spacesInUse) {
+                || vehicleType.get().getTotalPlaces().intValue() <= spacesInUse.longValue()) {
             throw new NoSpaceAvailableException();
         }
     }

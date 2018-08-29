@@ -1,9 +1,8 @@
 package co.com.ceiba.parkinglotbackend.core.services;
 
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
-import co.com.ceiba.parkinglotbackend.exceptions.VehicleDataException;
-import co.com.ceiba.parkinglotbackend.exceptions.VehicleDoesNotExistException;
-import co.com.ceiba.parkinglotbackend.utils.VehicleTypeEnum;
+import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDataException;
+import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDoesNotExistException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,7 +14,7 @@ public interface VehicleService {
 
     Optional<Vehicle> get(Optional<String> licensePlate) throws VehicleDoesNotExistException;
 
-    Vehicle getNewVehicle(String licensePlate, VehicleTypeEnum vehicleTypeEnum, Integer cylinderCapacity) throws VehicleDataException;
+    Vehicle getNewVehicle(String licensePlate, String vehicleTypeString, Integer cylinderCapacity) throws VehicleDataException;
 
     Optional<Vehicle> add(Optional<Vehicle> newVehicle) throws VehicleDataException;
 

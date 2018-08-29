@@ -1,4 +1,6 @@
-package co.com.ceiba.parkinglotbackend.exceptions;
+package co.com.ceiba.parkinglotbackend.exceptions.Implementations;
+
+import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
 
 public class VehicleDoesNotExistException extends BaseException {
 

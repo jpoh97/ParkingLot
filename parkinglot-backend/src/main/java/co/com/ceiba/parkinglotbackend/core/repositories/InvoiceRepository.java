@@ -13,7 +13,7 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer>, Pag
 
     Page<Invoice> findByVehicleLicensePlate(String licensePlate, Pageable pageable);
 
-    Stream<Invoice> findAllByDepartureDateIsNull(Pageable pageable);
+    Page<Invoice> findAllByDepartureDateIsNull(Pageable pageable);
 
     Long countByVehicleVehicleTypeNameAndDepartureDateIsNull(String vehicleTypeName);
 

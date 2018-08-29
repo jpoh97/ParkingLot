@@ -3,6 +3,8 @@ package co.com.ceiba.parkinglotbackend.core.services.implementations;
 import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.core.repositories.InvoiceRepository;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +19,18 @@ public class InvoiceServiceImplementation implements InvoiceService {
         this.invoiceRepository = invoiceRepository;
     }
 
+    public Invoice save(Invoice invoice) {
+        return invoiceRepository.save(invoice);
+    }
+
+    public Page<Invoice> getAll(Pageable pageable) {
+        return invoiceRepository.findAll(pageable);
+    }
+
+    public Page<Invoice> getAllInParking(Pageable pageable) {
+        return invoiceRepository.findAllByDepartureDateIsNull(pageable);
+    }
+
     public Stream<Invoice> getParkingSpacesInUseForVehicleType(String vehicleTypeName) {
         Stream<Invoice> vehiclesInParkingLot = invoiceRepository.findAllByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
         return vehiclesInParkingLot;
@@ -26,11 +40,7 @@ public class InvoiceServiceImplementation implements InvoiceService {
         return invoiceRepository.countByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
     }
 
-    public Invoice save(Invoice invoice) {
-        return invoiceRepository.save(invoice);
-    }
-
     public Optional<Invoice> getVehicleInParking(String licensePlate) {
-        return invoiceRepository.findByVehicleLicensePlateAndDepartureDateIsNull(licensePlate);
+        return invoiceRepository.findByVehicleLicensePlateAndDepartureDateIsNull(licensePlate.trim().toUpperCase());
     }
 }

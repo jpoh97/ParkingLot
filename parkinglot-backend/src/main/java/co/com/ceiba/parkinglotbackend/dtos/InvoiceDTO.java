@@ -8,6 +8,7 @@ public class InvoiceDTO {
     private LocalDateTime entryDate;
     private Optional<LocalDateTime> departureDate;
     private Optional<Long> price;
+    private String vehicleTypeName;
 
     public String getVehicleLicensePlate() {
         return vehicleLicensePlate;
@@ -40,4 +41,13 @@ public class InvoiceDTO {
     public void setPrice(Optional<Long> price) {
         this.price = price;
     }
+
+    public String getVehicleTypeName() {
+        return vehicleTypeName;
+    }
+
+    public void setVehicleTypeName(String vehicleTypeName) {
+        this.vehicleTypeName = vehicleTypeName;
+    }
+
 }

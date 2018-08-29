@@ -1,6 +1,6 @@
 package co.com.ceiba.parkinglotbackend.utils;
 
-public enum VehicleTypeEnum { //DELETE THIS
+public enum VehicleTypeEnum {
     CAR("CAR"),
     MOTORCYCLE("MOTORCYCLE");
 

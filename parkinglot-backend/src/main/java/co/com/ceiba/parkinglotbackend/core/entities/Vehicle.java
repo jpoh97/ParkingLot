@@ -10,6 +10,7 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique = true)
     @NotNull
     private String licensePlate;
     private Integer cylinderCapacity;
@@ -48,8 +49,8 @@ public class Vehicle {
         return Optional.ofNullable(cylinderCapacity);
     }
 
-    public void setCylinderCapacity(Integer cylinderCapacity) {
-        this.cylinderCapacity = cylinderCapacity;
+    public void setCylinderCapacity(Optional<Integer> cylinderCapacity) {
+        this.cylinderCapacity = cylinderCapacity.get();
     }
 
     public VehicleType getVehicleType() {

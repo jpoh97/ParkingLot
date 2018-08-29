@@ -10,6 +10,7 @@ public class VehicleType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique = true)
     @NotNull
     private String name;
     @NotNull

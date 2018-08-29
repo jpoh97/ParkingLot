@@ -4,7 +4,7 @@ import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
-import co.com.ceiba.parkinglotbackend.exceptions.VehicleAlreadyExistsInParkingLotException;
+import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleAlreadyExistsInParkingLotException;
 import co.com.ceiba.parkinglotbackend.validations.ParkingValidation;
 import org.springframework.stereotype.Component;
 

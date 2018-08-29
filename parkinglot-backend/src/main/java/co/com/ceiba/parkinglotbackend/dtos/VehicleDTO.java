@@ -1,8 +1,10 @@
 package co.com.ceiba.parkinglotbackend.dtos;
 
+import java.util.Optional;
+
 public class VehicleDTO {
     private String licensePlate;
-    private Integer cylinderCapacity;
+    private Optional<Integer> cylinderCapacity;
     private String vehicleTypeName;
 
     public String getLicensePlate() {
@@ -13,11 +15,11 @@ public class VehicleDTO {
         this.licensePlate = licensePlate;
     }
 
-    public Integer getCylinderCapacity() {
+    public Optional<Integer> getCylinderCapacity() {
         return cylinderCapacity;
     }
 
-    public void setCylinderCapacity(Integer cylinderCapacity) {
+    public void setCylinderCapacity(Optional<Integer> cylinderCapacity) {
         this.cylinderCapacity = cylinderCapacity;
     }
 

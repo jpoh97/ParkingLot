@@ -3,24 +3,28 @@ package co.com.ceiba.parkinglotbackend.exceptions.handler;
 import java.time.LocalDateTime;
 
 public class ErrorReponse {
-    private String exception;
+    private LocalDateTime timestamp;
+    private Integer status;
+    private String message;
     private String request;
     private String method;
-    private LocalDateTime localDateTime;
+    private String error;
 
-    public ErrorReponse(String exception, String request, String method, LocalDateTime localDateTime) {
-        this.exception = exception;
+    public ErrorReponse(String message, String request, String method, LocalDateTime timestamp, Integer status, String error) {
+        this.message = message;
         this.request = request;
         this.method = method;
-        this.localDateTime = localDateTime;
+        this.timestamp = timestamp;
+        this.status = status;
+        this.error = error;
     }
 
-    public String getException() {
-        return exception;
+    public String getMessage() {
+        return message;
     }
 
-    public void setException(String exception) {
-        this.exception = exception;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getRequest() {
@@ -39,11 +43,27 @@ public class ErrorReponse {
         this.method = method;
     }
 
-    public LocalDateTime getLocalDate() {
-        return localDateTime;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setLocalDate(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }
