@@ -32,8 +32,7 @@ public class InvoiceServiceImplementation implements InvoiceService {
     }
 
     public Stream<Invoice> getParkingSpacesInUseForVehicleType(String vehicleTypeName) {
-        Stream<Invoice> vehiclesInParkingLot = invoiceRepository.findAllByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
-        return vehiclesInParkingLot;
+        return invoiceRepository.findAllByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
     }
 
     public Long getParkingSpacesCountInUseForVehicleType(String vehicleTypeName) {

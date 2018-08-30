@@ -22,6 +22,14 @@ public class ParkingRates {
     @NotNull
     private Boolean active;
 
+    public ParkingRates() {}
+
+    public ParkingRates(@NotNull Long hourPrice, @NotNull Long dayPrice, Long extraPrice) {
+        this.hourPrice = hourPrice;
+        this.dayPrice = dayPrice;
+        this.extraPrice = extraPrice;
+    }
+
     public Integer getId() {
         return id;
     }

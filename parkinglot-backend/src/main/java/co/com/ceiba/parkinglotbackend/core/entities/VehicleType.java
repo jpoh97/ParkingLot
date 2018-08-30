@@ -21,6 +21,13 @@ public class VehicleType {
     @NotNull
     private List<ParkingRates> parkingRates;
 
+    public VehicleType() {}
+
+    public VehicleType(@NotNull String name, @NotNull Integer totalPlaces) {
+        this.name = name;
+        this.totalPlaces = totalPlaces;
+    }
+
     public Integer getId() {
         return id;
     }

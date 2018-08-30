@@ -1,19 +1,18 @@
-package co.com.ceiba.parkinglotbackend.utils;
+package co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils;
 
 import co.com.ceiba.parkinglotbackend.core.entities.ParkingRates;
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.InvalidDatesException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvalidDatesException;
 
 import java.time.LocalDateTime;
 
 public class ParkingCalculatorUtil {
 
+    private ParkingCalculatorUtil() {}
+
     public static Long calculatePrice(ParkingRates parkingRates, LocalDateTime entryDate, LocalDateTime departureDate)
             throws InvalidDatesException {
         Long finalPrice = 0L;
         ParkingCalendarUtil.DifferenceTimes differenceTimes = ParkingCalendarUtil.getDifferenceTime(entryDate, departureDate);
-        if (differenceTimes.getDays().longValue() < 0L || differenceTimes.getHours().longValue() < 0L) {
-            throw new InvalidDatesException();
-        }
 
         if (differenceTimes.getDays().equals(0L) && differenceTimes.getHours().equals(0L)) {
             return finalPrice;

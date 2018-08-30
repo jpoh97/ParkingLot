@@ -1,4 +1,4 @@
-package co.com.ceiba.parkinglotbackend.utils;
+package co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils;
 
 public enum VehicleTypeEnum {
     CAR("CAR"),

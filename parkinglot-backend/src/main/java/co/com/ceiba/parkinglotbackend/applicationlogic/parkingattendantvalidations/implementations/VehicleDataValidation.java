@@ -1,8 +1,8 @@
-package co.com.ceiba.parkinglotbackend.validations.implementations;
+package co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.implementations;
 
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDataException;
-import co.com.ceiba.parkinglotbackend.validations.ParkingValidation;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.ParkingValidation;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

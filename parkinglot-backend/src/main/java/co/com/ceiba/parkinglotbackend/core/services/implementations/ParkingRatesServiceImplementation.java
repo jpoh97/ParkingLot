@@ -4,7 +4,7 @@ import co.com.ceiba.parkinglotbackend.core.entities.ParkingRates;
 import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.repositories.ParkingRatesRepository;
 import co.com.ceiba.parkinglotbackend.core.services.ParkingRatesService;
-import co.com.ceiba.parkinglotbackend.utils.VehicleTypeEnum;
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.VehicleTypeEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +18,8 @@ public class ParkingRatesServiceImplementation implements ParkingRatesService {
     private ParkingRatesRepository parkingRatesRepository;
 
     // Constants
-    private final Long EXTRA_VALUE_FOR_MOTORCYCLE_WITH_CYLINDER_GREATER_THAN_500 = 2000L;
-    private final Long MAXIMUM_CYLINDER_WITHOUT_EXTRA_VALUE = 500L;
+    private static final Long EXTRA_VALUE_FOR_MOTORCYCLE_WITH_CYLINDER_GREATER_THAN_500 = 2000L;
+    private static final Long MAXIMUM_CYLINDER_WITHOUT_EXTRA_VALUE = 500L;
 
     public ParkingRatesServiceImplementation(ParkingRatesRepository parkingRatesRepository) {
         this.parkingRatesRepository = parkingRatesRepository;

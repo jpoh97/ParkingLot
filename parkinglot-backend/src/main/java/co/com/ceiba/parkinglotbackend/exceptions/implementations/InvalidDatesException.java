@@ -1,4 +1,4 @@
-package co.com.ceiba.parkinglotbackend.exceptions.Implementations;
+package co.com.ceiba.parkinglotbackend.exceptions.implementations;
 
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
 

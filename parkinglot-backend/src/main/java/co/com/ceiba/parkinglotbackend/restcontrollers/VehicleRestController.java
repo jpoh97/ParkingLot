@@ -8,7 +8,7 @@ import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 import co.com.ceiba.parkinglotbackend.dtos.VehicleDTO;
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDoesNotExistException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import co.com.ceiba.parkinglotbackend.adapters.VehicleAdapter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,32 +35,33 @@ public class VehicleRestController {
 
     @GetMapping
     public Page<VehicleDTO> listVehicles(Pageable pageable) {
-        return VehicleAdapter.vehicleListToDTOList(vehicleService.getAll(pageable));
+        return VehicleAdapter.vehicleListToDtoList(vehicleService.getAll(pageable));
     }
 
     @GetMapping("{licensePlate}")
     public ResponseEntity<VehicleDTO> getVehicle(@PathVariable String licensePlate) throws VehicleDoesNotExistException {
         Optional<Vehicle> vehicle = vehicleService.get(Optional.ofNullable(licensePlate));
         if (!vehicle.isPresent()) { throw new VehicleDoesNotExistException(); }
-        VehicleDTO vehicleDTO = VehicleAdapter.vehicleToDTO(vehicle.get());
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(vehicleDTO, headers, HttpStatus.OK);
+        VehicleDTO vehicleDTO = VehicleAdapter.vehicleToDto(vehicle.get());
+        return new ResponseEntity<>(vehicleDTO, getHeaders(), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<InvoiceDTO> vehicleCheckIn(@RequestBody VehicleDTO vehicleDTO) throws BaseException {
-        Vehicle vehicle = VehicleAdapter.DTOToVehicle(vehicleDTO);
+        Vehicle vehicle = VehicleAdapter.dtoToVehicle(vehicleDTO);
         Invoice invoice = parkingAttendant.vehicleCheckIn(vehicle, LocalDateTime.now());
-        InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDTO(invoice);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(invoiceDTO, headers, HttpStatus.OK);
+        InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDto(invoice);
+        return new ResponseEntity<>(invoiceDTO, getHeaders(), HttpStatus.CREATED);
     }
 
     @PutMapping("{licensePlate}")
     public ResponseEntity<InvoiceDTO> vehicleCheckOut(@PathVariable String licensePlate) throws BaseException {
         Invoice invoice = parkingAttendant.vehicleCheckOut(licensePlate, LocalDateTime.now());
-        InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDTO(invoice);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(invoiceDTO, headers, HttpStatus.OK);
+        InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDto(invoice);
+        return new ResponseEntity<>(invoiceDTO, getHeaders(), HttpStatus.OK);
+    }
+
+    private HttpHeaders getHeaders() {
+        return new HttpHeaders();
     }
 }

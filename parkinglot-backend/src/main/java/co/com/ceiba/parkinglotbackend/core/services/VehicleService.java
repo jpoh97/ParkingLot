@@ -1,8 +1,8 @@
 package co.com.ceiba.parkinglotbackend.core.services;
 
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDataException;
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDoesNotExistException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

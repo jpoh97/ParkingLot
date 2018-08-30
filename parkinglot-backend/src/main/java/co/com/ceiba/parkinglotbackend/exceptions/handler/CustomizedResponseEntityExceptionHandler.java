@@ -1,6 +1,6 @@
 package co.com.ceiba.parkinglotbackend.exceptions.handler;
 
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.*;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
