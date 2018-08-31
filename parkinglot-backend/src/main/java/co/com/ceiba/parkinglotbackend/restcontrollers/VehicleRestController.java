@@ -8,6 +8,7 @@ import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 import co.com.ceiba.parkinglotbackend.dtos.VehicleDTO;
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import co.com.ceiba.parkinglotbackend.adapters.VehicleAdapter;
 import org.springframework.data.domain.Page;
@@ -34,7 +35,7 @@ public class VehicleRestController {
     }
 
     @GetMapping
-    public Page<VehicleDTO> listVehicles(Pageable pageable) {
+    public Page<VehicleDTO> listVehicles(Pageable pageable) throws VehicleDataException {
         return VehicleAdapter.vehicleListToDtoList(vehicleService.getAll(pageable));
     }
 

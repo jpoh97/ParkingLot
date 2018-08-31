@@ -4,19 +4,35 @@ import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidatio
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.implementations.NoSpaceAvailableValidation;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.implementations.VehicleAlreadyExistsInParkingLotValidation;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.implementations.VehicleDataValidation;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.Mock;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.junit.Assert;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ParkingValidationFactoryTests {
 
-    @Autowired
     private ParkingValidationFactory sut;
+
+    @Mock
+    private NoSpaceAvailableValidation noSpaceAvailableValidation;
+    @Mock
+    private VehicleDataValidation vehicleDataValidation;
+    @Mock
+    private VehicleAlreadyExistsInParkingLotValidation vehicleAlreadyExistsInParkingLotValidation;
+
+    @Before
+    public void setUp() {
+        sut = new ParkingValidationFactory(noSpaceAvailableValidation, vehicleDataValidation, vehicleAlreadyExistsInParkingLotValidation);
+    }
+
+    @After
+    public void tearDown() {
+        sut = null;
+    }
 
     @Test
     public void getVehicleDataValidation() {

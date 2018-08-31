@@ -5,6 +5,7 @@ import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.repositories.ParkingRatesRepository;
 import co.com.ceiba.parkinglotbackend.core.services.ParkingRatesService;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.VehicleTypeEnum;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.ParkingRatesDataException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,11 +30,14 @@ public class ParkingRatesServiceImplementation implements ParkingRatesService {
         return StreamSupport.stream(parkingRatesRepository.findAll().spliterator(), true);
     }
 
-    public List<ParkingRates> getCurrentParkingRates(Boolean active) {
+    public List<ParkingRates> getCurrentParkingRates(Boolean active) throws ParkingRatesDataException {
+        if(!Optional.ofNullable(active).isPresent()) {
+            throw new ParkingRatesDataException();
+        }
         return parkingRatesRepository.findAllByActive(active);
     }
 
-    public ParkingRates getCurrentParkingRatesFor(VehicleType vehicleType, Optional<Integer> cylinderCapacity) {
+    public ParkingRates getCurrentParkingRatesFor(VehicleType vehicleType, Optional<Integer> cylinderCapacity) throws ParkingRatesDataException {
         Long extraValue = getExtraPriceForMotorcycle(vehicleType, cylinderCapacity);
         List<ParkingRates> activeParkingRates = getCurrentParkingRates(true);
         for (ParkingRates parkingRates : activeParkingRates) {
@@ -45,7 +49,11 @@ public class ParkingRatesServiceImplementation implements ParkingRatesService {
         return null;
     }
 
-    private Long getExtraPriceForMotorcycle(VehicleType vehicleType, Optional<Integer> cylinderCapacity) {
+    private Long getExtraPriceForMotorcycle(VehicleType vehicleType, Optional<Integer> cylinderCapacity) throws ParkingRatesDataException {
+        if(!Optional.ofNullable(vehicleType).isPresent() || !Optional.ofNullable(vehicleType.getName()).isPresent()
+                || !cylinderCapacity.isPresent()) {
+            throw new ParkingRatesDataException();
+        }
         Long extraValue = 0L;
         if (vehicleType.getName().equalsIgnoreCase(VehicleTypeEnum.MOTORCYCLE.getValue())) {
             extraValue = cylinderCapacity.isPresent() && cylinderCapacity.get() > MAXIMUM_CYLINDER_WITHOUT_EXTRA_VALUE ?

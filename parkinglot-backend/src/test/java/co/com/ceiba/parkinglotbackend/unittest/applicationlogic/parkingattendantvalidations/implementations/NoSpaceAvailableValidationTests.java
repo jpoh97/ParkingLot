@@ -5,9 +5,12 @@ import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
+import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.NoSpaceAvailableException;
-import co.com.ceiba.parkinglotbackend.testdatabuilder.VehicleTestDataBuilder;
-import co.com.ceiba.parkinglotbackend.testdatabuilder.VehicleTypeTestDataBuilder;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
+import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTestDataBuilder;
+import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTypeTestDataBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +59,7 @@ public class NoSpaceAvailableValidationTests {
     }
 
     @Test
-    public void validateSpaceAvailable() throws NoSpaceAvailableException {
+    public void validateSpaceAvailable() throws BaseException {
         when(mockInvoiceService.getParkingSpacesCountInUseForVehicleType(any())).thenReturn(spacesInUse);
         when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.ofNullable(vehicleType));
 
@@ -65,7 +68,7 @@ public class NoSpaceAvailableValidationTests {
     }
 
     @Test(expected = NoSpaceAvailableException.class)
-    public void validateNotSpaceAvailable() throws NoSpaceAvailableException {
+    public void validateNotSpaceAvailable() throws BaseException {
         spacesInUse = 10L;
         when(mockInvoiceService.getParkingSpacesCountInUseForVehicleType(any())).thenReturn(spacesInUse);
         when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.ofNullable(vehicleType));
@@ -75,7 +78,7 @@ public class NoSpaceAvailableValidationTests {
     }
 
     @Test(expected = NoSpaceAvailableException.class)
-    public void validateSpaceAvailableWithoutVehicleType() throws NoSpaceAvailableException {
+    public void validateSpaceAvailableWithoutVehicleType() throws BaseException {
         when(mockInvoiceService.getParkingSpacesCountInUseForVehicleType(any())).thenReturn(spacesInUse);
         when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.ofNullable(null));
 

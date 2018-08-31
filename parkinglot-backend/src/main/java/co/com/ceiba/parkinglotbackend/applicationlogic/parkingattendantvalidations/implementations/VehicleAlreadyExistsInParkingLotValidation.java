@@ -3,6 +3,7 @@ package co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidati
 import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleAlreadyExistsInParkingLotException;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.ParkingValidation;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class VehicleAlreadyExistsInParkingLotValidation implements ParkingValida
     }
 
     @Override
-    public void execute(Optional<Vehicle> vehicle) throws VehicleAlreadyExistsInParkingLotException {
+    public void execute(Optional<Vehicle> vehicle) throws VehicleAlreadyExistsInParkingLotException, InvoiceDataException {
         Optional<Invoice> invoice = invoiceService.getVehicleInParking(vehicle.get().getLicensePlate());
         if (invoice.isPresent()) {
             throw new VehicleAlreadyExistsInParkingLotException();

@@ -3,7 +3,7 @@ package co.com.ceiba.parkinglotbackend.unittest.applicationlogic.parkingattendan
 import co.com.ceiba.parkinglotbackend.core.entities.ParkingRates;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvalidDatesException;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.ParkingCalendarTestDataBuilder;
-import co.com.ceiba.parkinglotbackend.testdatabuilder.ParkingRatesTestDataBuilder;
+import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.ParkingRatesTestDataBuilder;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalculatorUtil;
 import org.junit.After;
 import org.junit.Assert;

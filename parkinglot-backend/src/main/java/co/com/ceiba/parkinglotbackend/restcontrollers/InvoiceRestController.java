@@ -3,6 +3,7 @@ package co.com.ceiba.parkinglotbackend.restcontrollers;
 import co.com.ceiba.parkinglotbackend.adapters.InvoiceAdapter;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,12 +23,12 @@ public class InvoiceRestController {
     }
 
     @GetMapping("history")
-    public Page<InvoiceDTO> listAllInvoices(Pageable pageable) {
+    public Page<InvoiceDTO> listAllInvoices(Pageable pageable) throws InvoiceDataException {
         return InvoiceAdapter.invoiceListToDtoList(invoiceService.getAll(pageable));
     }
 
     @GetMapping
-    public Page<InvoiceDTO> listVehiclesInParking(Pageable pageable) {
+    public Page<InvoiceDTO> listVehiclesInParking(Pageable pageable) throws InvoiceDataException {
         return InvoiceAdapter.invoiceListToDtoList(invoiceService.getAllInParking(pageable));
     }
 }

@@ -3,7 +3,7 @@ package co.com.ceiba.parkinglotbackend.unittest.applicationlogic.parkingattendan
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.implementations.VehicleDataValidation;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
-import co.com.ceiba.parkinglotbackend.testdatabuilder.VehicleTestDataBuilder;
+import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTestDataBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

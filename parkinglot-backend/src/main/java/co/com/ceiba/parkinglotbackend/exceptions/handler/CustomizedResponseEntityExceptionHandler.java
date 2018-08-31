@@ -27,7 +27,10 @@ public class CustomizedResponseEntityExceptionHandler {
     @ExceptionHandler({
             InvalidDatesException.class,
             VehicleDataException.class,
-            VehicleAlreadyExistsInParkingLotException.class
+            VehicleAlreadyExistsInParkingLotException.class,
+            InvoiceDataException.class,
+            VehicleTypeDataException.class,
+            ParkingRatesDataException.class
     })
     @ResponseBody
     public ErrorReponse badRequest(Exception exception, HttpServletRequest request) {

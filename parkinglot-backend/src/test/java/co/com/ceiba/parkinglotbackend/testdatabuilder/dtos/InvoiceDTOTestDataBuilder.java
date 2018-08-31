@@ -1,4 +1,4 @@
-package co.com.ceiba.parkinglotbackend.testdatabuilder;
+package co.com.ceiba.parkinglotbackend.testdatabuilder.dtos;
 
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 
@@ -9,7 +9,7 @@ public class InvoiceDTOTestDataBuilder {
 
     private static final String VEHICLE_LICENSE_PLATE = "ssh42a";
     private static final LocalDateTime ENTRY_DATE = LocalDateTime.now().minusDays(1);
-    private static final Optional<LocalDateTime> DEPATURE_DATE = Optional.ofNullable(LocalDateTime.now());
+    private static final Optional<LocalDateTime> DEPARTURE_DATE = Optional.ofNullable(LocalDateTime.now());
     private static final Optional<Long> PRICE = Optional.ofNullable(8000L);
     private static final String VEHICLE_TYPE_NAME = "CAR";
 
@@ -22,7 +22,7 @@ public class InvoiceDTOTestDataBuilder {
     public InvoiceDTOTestDataBuilder() {
         this.vehicleLicensePlate = VEHICLE_LICENSE_PLATE;
         this.entryDate = ENTRY_DATE;
-        this.departureDate = DEPATURE_DATE;
+        this.departureDate = DEPARTURE_DATE;
         this.price = PRICE;
         this.vehicleTypeName = VEHICLE_TYPE_NAME;
     }

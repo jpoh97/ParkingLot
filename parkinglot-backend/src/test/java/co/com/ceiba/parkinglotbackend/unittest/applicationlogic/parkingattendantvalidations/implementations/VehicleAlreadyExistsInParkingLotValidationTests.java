@@ -4,9 +4,10 @@ import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidatio
 import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleAlreadyExistsInParkingLotException;
-import co.com.ceiba.parkinglotbackend.testdatabuilder.InvoiceTestDataBuilder;
-import co.com.ceiba.parkinglotbackend.testdatabuilder.VehicleTestDataBuilder;
+import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.InvoiceTestDataBuilder;
+import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTestDataBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,14 +50,14 @@ public class VehicleAlreadyExistsInParkingLotValidationTests {
     }
 
     @Test
-    public void validateVehicleDoesNotExistInParkingLot() throws VehicleAlreadyExistsInParkingLotException {
+    public void validateVehicleDoesNotExistInParkingLot() throws VehicleAlreadyExistsInParkingLotException, InvoiceDataException {
         when(mockInvoiceService.getVehicleInParking(any())).thenReturn(Optional.ofNullable(null));
         sut = new VehicleAlreadyExistsInParkingLotValidation(mockInvoiceService);
         sut.execute(Optional.ofNullable(vehicle));
     }
 
     @Test(expected = VehicleAlreadyExistsInParkingLotException.class)
-    public void validateVehicleExistsInParkingLot() throws VehicleAlreadyExistsInParkingLotException {
+    public void validateVehicleExistsInParkingLot() throws VehicleAlreadyExistsInParkingLotException, InvoiceDataException {
         when(mockInvoiceService.getVehicleInParking(any())).thenReturn(Optional.ofNullable(invoice));
         sut = new VehicleAlreadyExistsInParkingLotValidation(mockInvoiceService);
         sut.execute(Optional.ofNullable(vehicle));

@@ -7,6 +7,7 @@ import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataExce
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import co.com.ceiba.parkinglotbackend.core.repositories.VehicleRepository;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,10 @@ public class VehicleServiceImplementation implements VehicleService {
         this.vehicleTypeService = vehicleTypeService;
     }
 
-    public Page<Vehicle> getAll(Pageable pageable) {
+    public Page<Vehicle> getAll(Pageable pageable) throws VehicleDataException {
+        if(!Optional.ofNullable(pageable).isPresent()) {
+            throw new VehicleDataException();
+        }
         return vehicleRepository.findAll(pageable);
     }
 
@@ -47,7 +51,7 @@ public class VehicleServiceImplementation implements VehicleService {
         Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(newVehicle.get().getLicensePlate());
         if (vehicle.isPresent()) {
             if(newVehicle.get().getCylinderCapacity().isPresent()
-                    && !vehicle.get().getCylinderCapacity().get().equals(newVehicle.get().getCylinderCapacity().get())) {
+                    && !newVehicle.get().getCylinderCapacity().get().equals(vehicle.get().getCylinderCapacity().get())) {
                 vehicle.get().setCylinderCapacity(newVehicle.get().getCylinderCapacity());
                 vehicleRepository.save(vehicle.get());
             }
@@ -57,7 +61,7 @@ public class VehicleServiceImplementation implements VehicleService {
     }
 
     public Vehicle getNewVehicle(String licensePlate, String vehicleTypeString, Integer cylinderCapacity)
-            throws VehicleDataException {
+            throws VehicleDataException, VehicleTypeDataException {
         Optional<VehicleType> vehicleType = vehicleTypeService.getCurrentVehicleType(vehicleTypeString.trim().toUpperCase());
         if (!vehicleType.isPresent()) {
             throw new VehicleDataException();
