@@ -51,7 +51,7 @@ public class VehicleAlreadyExistsInParkingLotValidationTests {
 
     @Test
     public void validateVehicleDoesNotExistInParkingLot() throws VehicleAlreadyExistsInParkingLotException, InvoiceDataException {
-        when(mockInvoiceService.getVehicleInParking(any())).thenReturn(Optional.ofNullable(null));
+        when(mockInvoiceService.getVehicleInParking(any())).thenReturn(Optional.empty());
         sut = new VehicleAlreadyExistsInParkingLotValidation(mockInvoiceService);
         sut.execute(Optional.ofNullable(vehicle));
     }

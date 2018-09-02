@@ -21,9 +21,11 @@ public class VehicleAlreadyExistsInParkingLotValidation implements ParkingValida
 
     @Override
     public void execute(Optional<Vehicle> vehicle) throws VehicleAlreadyExistsInParkingLotException, InvoiceDataException {
-        Optional<Invoice> invoice = invoiceService.getVehicleInParking(vehicle.get().getLicensePlate());
-        if (invoice.isPresent()) {
-            throw new VehicleAlreadyExistsInParkingLotException();
+        if (vehicle.isPresent()) {
+            Optional<Invoice> invoice = invoiceService.getVehicleInParking(vehicle.get().getLicensePlate());
+            if (invoice.isPresent()) {
+                throw new VehicleAlreadyExistsInParkingLotException();
+            }
         }
     }
 }

@@ -58,9 +58,7 @@ public class Invoice {
     }
 
     public void setDepartureDate(Optional<LocalDateTime> departureDate) {
-        if (departureDate.isPresent()) {
-            this.departureDate = departureDate.get();
-        }
+        departureDate.ifPresent(localDateTime -> this.departureDate = localDateTime);
     }
 
     public Optional<Long> getPrice() {
@@ -68,9 +66,7 @@ public class Invoice {
     }
 
     public void setPrice(Optional<Long> price) {
-        if (price.isPresent()) {
-            this.price = price.get();
-        }
+        price.ifPresent(aLong -> this.price = aLong);
     }
 
     public ParkingRates getParkingRates() {

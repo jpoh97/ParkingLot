@@ -50,9 +50,7 @@ public class Vehicle {
     }
 
     public void setCylinderCapacity(Optional<Integer> cylinderCapacity) {
-        if (cylinderCapacity.isPresent()) {
-            this.cylinderCapacity = cylinderCapacity.get();
-        }
+        cylinderCapacity.ifPresent(integer -> this.cylinderCapacity = integer);
     }
 
     public VehicleType getVehicleType() {

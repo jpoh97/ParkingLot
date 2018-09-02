@@ -23,14 +23,16 @@ public class NoSpaceAvailableValidation implements ParkingValidation {
     }
 
     public void execute(Optional<Vehicle> vehicle) throws BaseException {
-        Long spacesInUse = invoiceService.getParkingSpacesCountInUseForVehicleType(
-                vehicle.get().getVehicleType().getName());
-        Optional<VehicleType> vehicleType = vehicleTypeService.getCurrentVehicleType(
-                vehicle.get().getVehicleType().getName());
+        if (vehicle.isPresent()) {
+            Long spacesInUse = invoiceService.getParkingSpacesCountInUseForVehicleType(
+                    vehicle.get().getVehicleType().getName());
+            Optional<VehicleType> vehicleType = vehicleTypeService.getCurrentVehicleType(
+                    vehicle.get().getVehicleType().getName());
 
-        if (!vehicleType.isPresent()
-                || vehicleType.get().getTotalPlaces().intValue() <= spacesInUse.longValue()) {
-            throw new NoSpaceAvailableException();
+            if (!vehicleType.isPresent()
+                    || vehicleType.get().getTotalPlaces().intValue() <= spacesInUse.longValue()) {
+                throw new NoSpaceAvailableException();
+            }
         }
     }
 }

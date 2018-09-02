@@ -6,9 +6,7 @@ import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
-import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.NoSpaceAvailableException;
-import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTestDataBuilder;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTypeTestDataBuilder;
 import org.junit.After;
@@ -80,7 +78,7 @@ public class NoSpaceAvailableValidationTests {
     @Test(expected = NoSpaceAvailableException.class)
     public void validateSpaceAvailableWithoutVehicleType() throws BaseException {
         when(mockInvoiceService.getParkingSpacesCountInUseForVehicleType(any())).thenReturn(spacesInUse);
-        when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.ofNullable(null));
+        when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.empty());
 
         sut = new NoSpaceAvailableValidation(mockInvoiceService, mockVehicleTypeService);
         sut.execute(Optional.ofNullable(vehicle));

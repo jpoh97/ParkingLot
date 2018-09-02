@@ -9,8 +9,8 @@ public class InvoiceDTOTestDataBuilder {
 
     private static final String VEHICLE_LICENSE_PLATE = "ssh42a";
     private static final LocalDateTime ENTRY_DATE = LocalDateTime.now().minusDays(1);
-    private static final Optional<LocalDateTime> DEPARTURE_DATE = Optional.ofNullable(LocalDateTime.now());
-    private static final Optional<Long> PRICE = Optional.ofNullable(8000L);
+    private static final Optional<LocalDateTime> DEPARTURE_DATE = Optional.of(LocalDateTime.now());
+    private static final Optional<Long> PRICE = Optional.of(8000L);
     private static final String VEHICLE_TYPE_NAME = "CAR";
 
     private String vehicleLicensePlate;

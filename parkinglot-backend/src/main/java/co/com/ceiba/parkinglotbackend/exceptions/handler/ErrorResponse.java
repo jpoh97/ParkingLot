@@ -2,7 +2,7 @@ package co.com.ceiba.parkinglotbackend.exceptions.handler;
 
 import java.time.LocalDateTime;
 
-public class ErrorReponse {
+public class ErrorResponse {
     private LocalDateTime timestamp;
     private Integer status;
     private String message;
@@ -10,7 +10,7 @@ public class ErrorReponse {
     private String method;
     private String error;
 
-    public ErrorReponse(String message, String request, String method, LocalDateTime timestamp, Integer status, String error) {
+    ErrorResponse(String message, String request, String method, LocalDateTime timestamp, Integer status, String error) {
         this.message = message;
         this.request = request;
         this.method = method;

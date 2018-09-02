@@ -37,7 +37,7 @@ public class VehicleDataValidationTests {
 
     @Test(expected = VehicleDataException.class)
     public void validateWithoutVehicle() throws VehicleDataException {
-        sut.execute(Optional.ofNullable(null));
+        sut.execute(Optional.empty());
     }
 
     @Test(expected = VehicleDataException.class)

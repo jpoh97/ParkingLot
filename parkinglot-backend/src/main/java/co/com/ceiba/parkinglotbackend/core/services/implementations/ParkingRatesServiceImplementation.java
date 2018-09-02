@@ -54,9 +54,9 @@ public class ParkingRatesServiceImplementation implements ParkingRatesService {
                 || !cylinderCapacity.isPresent()) {
             throw new ParkingRatesDataException();
         }
-        Long extraValue = 0L;
+        long extraValue = 0L;
         if (vehicleType.getName().equalsIgnoreCase(VehicleTypeEnum.MOTORCYCLE.getValue())) {
-            extraValue = cylinderCapacity.isPresent() && cylinderCapacity.get() > MAXIMUM_CYLINDER_WITHOUT_EXTRA_VALUE ?
+            extraValue = (cylinderCapacity.get() > MAXIMUM_CYLINDER_WITHOUT_EXTRA_VALUE) ?
                     EXTRA_VALUE_FOR_MOTORCYCLE_WITH_CYLINDER_GREATER_THAN_500 : 0;
         }
         return extraValue;

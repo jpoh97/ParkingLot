@@ -6,11 +6,12 @@ import co.com.ceiba.parkinglotbackend.testdatabuilder.ParkingCalendarTestDataBui
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.ParkingRatesTestDataBuilder;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalculatorUtil;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+
+import static org.junit.Assert.*;
 
 public class ParkingCalculatorUtilTests {
 
@@ -41,15 +42,15 @@ public class ParkingCalculatorUtilTests {
     @Test
     public void calculateCorrectPrice() throws InvalidDatesException {
         Long price = ParkingCalculatorUtil.calculatePrice(parkingRates, sunday, monday);
-        Assert.assertEquals("Incorrect total price", parkingRates.getDayPrice() + parkingRates.getExtraPrice(),
+        assertEquals("Incorrect total price", parkingRates.getDayPrice() + parkingRates.getExtraPrice(),
                 price.longValue());
 
         price = ParkingCalculatorUtil.calculatePrice(parkingRates, sunday, monday.plusMinutes(1));
-        Assert.assertEquals("Incorrect total price", parkingRates.getDayPrice() +
+        assertEquals("Incorrect total price", parkingRates.getDayPrice() +
                         parkingRates.getHourPrice() + parkingRates.getExtraPrice(), price.longValue());
 
         price = ParkingCalculatorUtil.calculatePrice(parkingRates, sunday, monday.plusMinutes(59));
-        Assert.assertEquals("Incorrect total price", parkingRates.getDayPrice() +
+        assertEquals("Incorrect total price", parkingRates.getDayPrice() +
                 parkingRates.getHourPrice() + parkingRates.getExtraPrice(), price.longValue());
     }
 
@@ -62,15 +63,15 @@ public class ParkingCalculatorUtilTests {
     public void calculatePriceWithoutExtraPrice() throws InvalidDatesException {
         parkingRates = parkingRatesTestDataBuilder.withExtraPrice(0L).build();
         Long price = ParkingCalculatorUtil.calculatePrice(parkingRates, sunday, monday);
-        Assert.assertEquals("Incorrect total price", parkingRates.getDayPrice().longValue(), price.longValue());
+        assertEquals("Incorrect total price", parkingRates.getDayPrice().longValue(), price.longValue());
     }
 
     @Test
     public void calculateFreePrice() throws InvalidDatesException {
         Long price = ParkingCalculatorUtil.calculatePrice(parkingRates, sunday, sunday);
-        Assert.assertEquals("Total price must be zero", 0, price.longValue());
+        assertEquals("Total price must be zero", 0, price.longValue());
 
         price = ParkingCalculatorUtil.calculatePrice(parkingRates, sunday, sunday.plusMinutes(5));
-        Assert.assertEquals("Total price must be zero", 0, price.longValue());
+        assertEquals("Total price must be zero", 0, price.longValue());
     }
 }

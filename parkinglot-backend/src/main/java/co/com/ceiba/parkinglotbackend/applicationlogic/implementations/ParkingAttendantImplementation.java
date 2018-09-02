@@ -48,7 +48,8 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
     public Invoice vehicleCheckIn(Vehicle vehicleResponse, LocalDateTime entryDate) throws BaseException {
         Optional<Vehicle> vehicle;
 
-        if (null == vehicleResponse.getVehicleType()
+        if (null == vehicleResponse
+                || null == vehicleResponse.getVehicleType()
                 || null == vehicleResponse.getVehicleType().getName()
                 || null == vehicleResponse.getLicensePlate()
                 || !vehicleResponse.getCylinderCapacity().isPresent()) {
@@ -74,7 +75,7 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
         }
 
         Invoice invoice = new Invoice(vehicle.get(), entryDate, currentParkingRates);
-        invoiceService.save(invoice);
+        invoice = invoiceService.save(invoice);
 
         return invoice;
     }
@@ -85,8 +86,9 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
         parkingValidations.add(parkingValidationFactory.getParkingValidation(ParkingValidationFactory.ParkingValidationType.VEHICLE_DATA));
         parkingValidations.add(parkingValidationFactory.getParkingValidation(ParkingValidationFactory.ParkingValidationType.VEHICLE_ALREADY_EXISTS_IN_PARKING_LOT));
 
-        invalidDayLicensePlateValidation.execute(vehicle.get().getLicensePlate(), entryDate);
-
+        if (vehicle.isPresent()) {
+            invalidDayLicensePlateValidation.execute(vehicle.get().getLicensePlate(), entryDate);
+        }
         for (ParkingValidation parkingValidation : parkingValidations) {
             parkingValidation.execute(vehicle);
         }
@@ -106,7 +108,7 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
 
         Long price = ParkingCalculatorUtil.calculatePrice(invoice.get().getParkingRates(), invoice.get().getEntryDate(), departureDate);
         invoice.get().setPrice(Optional.ofNullable(price));
-        invoice.get().setDepartureDate(Optional.ofNullable(departureDate));
+        invoice.get().setDepartureDate(Optional.of(departureDate));
         invoiceService.save(invoice.get());
 
         return invoice.get();

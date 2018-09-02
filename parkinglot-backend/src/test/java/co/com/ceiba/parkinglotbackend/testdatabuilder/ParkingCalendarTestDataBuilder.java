@@ -11,11 +11,11 @@ public class ParkingCalendarTestDataBuilder {
     private static final Integer HOUR = 0;
     private static final Integer MINUTE = 0;
 
-    private Integer year = 1997;
-    private Month month = Month.FEBRUARY;
-    private Integer day = 9;
-    private Integer hour = 0;
-    private Integer minute = 0;
+    private Integer year;
+    private Month month;
+    private Integer day;
+    private Integer hour;
+    private Integer minute;
 
     public ParkingCalendarTestDataBuilder() {
         this.year = YEAR;

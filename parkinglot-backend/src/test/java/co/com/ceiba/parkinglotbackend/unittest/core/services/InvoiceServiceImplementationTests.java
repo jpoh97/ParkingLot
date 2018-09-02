@@ -7,7 +7,6 @@ import co.com.ceiba.parkinglotbackend.core.services.implementations.InvoiceServi
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.InvoiceTestDataBuilder;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +22,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -55,7 +57,7 @@ public class InvoiceServiceImplementationTests {
         sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         invoice = sut.save(invoice);
 
-        Assert.assertNotNull("Cannot save the invoice", invoice);
+        assertNotNull("Cannot save the invoice", invoice);
     }
 
     @Test(expected = InvoiceDataException.class)
@@ -76,8 +78,8 @@ public class InvoiceServiceImplementationTests {
         Page<Invoice> invoicePage = sut.getAll(PageRequest.of(1, 2));
 
         // assert
-        Assert.assertNotNull("Invoice list is null", invoicePage);
-        Assert.assertTrue("Invoice list is empty", invoicePage.getTotalElements() == invoices.size());
+        assertNotNull("Invoice list is null", invoicePage);
+        assertEquals("Invoice list is empty", invoicePage.getTotalElements(), invoices.size());
     }
 
     @Test(expected = InvoiceDataException.class)
@@ -98,8 +100,8 @@ public class InvoiceServiceImplementationTests {
         Page<Invoice> invoicePage = sut.getAllInParking(PageRequest.of(1, 2));
 
         // assert
-        Assert.assertNotNull("Invoice list is null", invoicePage);
-        Assert.assertTrue("Invoice list is empty", invoicePage.getTotalElements() == invoices.size());
+        assertNotNull("Invoice list is null", invoicePage);
+        assertEquals("Invoice list is empty", invoicePage.getTotalElements(), invoices.size());
     }
 
     @Test(expected = InvoiceDataException.class)
@@ -119,8 +121,8 @@ public class InvoiceServiceImplementationTests {
         Stream<Invoice> invoiceStream = sut.getParkingSpacesInUseForVehicleType(invoice.getVehicle().getVehicleType().getName());
 
         // assert
-        Assert.assertNotNull("Invoice stream is null", invoiceStream);
-        Assert.assertTrue("Invoice stream is empty", invoiceStream.count() == invoices.size());
+        assertNotNull("Invoice stream is null", invoiceStream);
+        assertEquals("Invoice stream is empty", invoiceStream.count(), invoices.size());
     }
 
     @Test(expected = InvoiceDataException.class)
@@ -136,7 +138,7 @@ public class InvoiceServiceImplementationTests {
         sut = new InvoiceServiceImplementation(mockInvoiceRepository);
 
         Long countReturn = sut.getParkingSpacesCountInUseForVehicleType(invoice.getVehicle().getVehicleType().getName());
-        Assert.assertEquals("Count not equals", countMock, countReturn);
+        assertEquals("Count not equals", countMock, countReturn);
     }
 
     @Test(expected = InvoiceDataException.class)
@@ -155,11 +157,11 @@ public class InvoiceServiceImplementationTests {
         Optional<Invoice> invoiceReturn = sut.getVehicleInParking(invoice.getVehicle().getLicensePlate());
 
         // assert
-        Assert.assertTrue("Invoice return is null", invoiceReturn.isPresent());
-        Assert.assertEquals("License plates are not equals", invoice.getVehicle().getLicensePlate(),
+        assertTrue("Invoice return is null", invoiceReturn.isPresent());
+        assertEquals("License plates are not equals", invoice.getVehicle().getLicensePlate(),
                 invoiceReturn.get().getVehicle().getLicensePlate());
-        Assert.assertEquals("Entry dates are not equals", invoice.getEntryDate(), invoiceReturn.get().getEntryDate());
-        Assert.assertEquals("Exit dates are not equals", invoice.getDepartureDate(), invoiceReturn.get().getDepartureDate());
+        assertEquals("Entry dates are not equals", invoice.getEntryDate(), invoiceReturn.get().getEntryDate());
+        assertEquals("Exit dates are not equals", invoice.getDepartureDate(), invoiceReturn.get().getDepartureDate());
     }
 
     @Test(expected = InvoiceDataException.class)

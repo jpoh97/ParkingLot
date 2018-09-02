@@ -10,7 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.junit.Assert;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ParkingValidationFactoryTests {
@@ -36,19 +37,19 @@ public class ParkingValidationFactoryTests {
 
     @Test
     public void getVehicleDataValidation() {
-        Assert.assertTrue("Factory returns incorrect object", sut.getParkingValidation(
+        assertTrue("Factory returns incorrect object", sut.getParkingValidation(
                 ParkingValidationFactory.ParkingValidationType.VEHICLE_DATA) instanceof VehicleDataValidation);
     }
 
     @Test
     public void getNoSpaceAvailableValidation() {
-        Assert.assertTrue("Factory returns incorrect object", sut.getParkingValidation(
+        assertTrue("Factory returns incorrect object", sut.getParkingValidation(
                 ParkingValidationFactory.ParkingValidationType.NO_SPACE_AVAILABLE) instanceof NoSpaceAvailableValidation);
     }
 
     @Test
     public void getVehicleAlreadyExistsInParkingLotValidation() {
-        Assert.assertTrue("Factory returns incorrect object", sut.getParkingValidation(
+        assertTrue("Factory returns incorrect object", sut.getParkingValidation(
                 ParkingValidationFactory.ParkingValidationType.VEHICLE_ALREADY_EXISTS_IN_PARKING_LOT)
                 instanceof VehicleAlreadyExistsInParkingLotValidation);
     }

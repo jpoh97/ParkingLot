@@ -50,21 +50,25 @@ public class VehicleServiceImplementation implements VehicleService {
         }
         Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(newVehicle.get().getLicensePlate());
         if (vehicle.isPresent()) {
-            if(newVehicle.get().getCylinderCapacity().isPresent()
+            if(newVehicle.get().getCylinderCapacity().isPresent() && vehicle.get().getCylinderCapacity().isPresent()
                     && !newVehicle.get().getCylinderCapacity().get().equals(vehicle.get().getCylinderCapacity().get())) {
                 vehicle.get().setCylinderCapacity(newVehicle.get().getCylinderCapacity());
-                vehicleRepository.save(vehicle.get());
+                vehicle = Optional.ofNullable(vehicleRepository.save(vehicle.get()));
             }
             return vehicle;
         }
-        return newVehicle;
+        vehicle = Optional.ofNullable(vehicleRepository.save(newVehicle.get()));
+        return vehicle;
     }
 
     public Vehicle getNewVehicle(String licensePlate, String vehicleTypeString, Integer cylinderCapacity)
             throws VehicleDataException, VehicleTypeDataException {
+        if (null == licensePlate || null == vehicleTypeString) {
+            throw new VehicleDataException();
+        }
         Optional<VehicleType> vehicleType = vehicleTypeService.getCurrentVehicleType(vehicleTypeString.trim().toUpperCase());
         if (!vehicleType.isPresent()) {
-            throw new VehicleDataException();
+            throw new VehicleTypeDataException();
         }
         return new Vehicle(licensePlate.trim().toUpperCase(), cylinderCapacity, vehicleType.get(), LocalDateTime.now());
     }

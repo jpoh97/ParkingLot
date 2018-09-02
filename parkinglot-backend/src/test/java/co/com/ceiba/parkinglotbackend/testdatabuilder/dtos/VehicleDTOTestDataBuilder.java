@@ -7,7 +7,7 @@ import java.util.Optional;
 public class VehicleDTOTestDataBuilder {
 
     private static final String LICENSE_PLATE = "ssh42a";
-    private static final Optional<Integer> CYLINDER_CAPACITY = Optional.ofNullable(42);
+    private static final Optional<Integer> CYLINDER_CAPACITY = Optional.of(42);
     private static final String VEHICLE_TYPE_NAME = "CAR";
 
     private String licensePlate;

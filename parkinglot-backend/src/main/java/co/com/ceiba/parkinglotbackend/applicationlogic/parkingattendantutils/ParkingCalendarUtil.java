@@ -27,8 +27,8 @@ public class ParkingCalendarUtil {
 
     /**
      * The first 5 minutes does not matter.
-     * @param entryDate
-     * @param departureDate
+     * @param entryDate at parking lot
+     * @param departureDate at parking lot
      * @return time in days and hours
      */
     public static DifferenceTimes getDifferenceTime(LocalDateTime entryDate, LocalDateTime departureDate) throws InvalidDatesException {
@@ -56,7 +56,7 @@ public class ParkingCalendarUtil {
         private Long days;
         private Long hours;
 
-        public DifferenceTimes(Long days, Long hours) {
+        DifferenceTimes(Long days, Long hours) {
             this.days = days;
             this.hours = hours;
         }
