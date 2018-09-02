@@ -46,11 +46,10 @@ public class ParkingAttendantImplementationTests {
     // other objects
     private Invoice invoice;
     private Vehicle vehicle;
-    private VehicleTestDataBuilder vehicleTestDataBuilder;
     private ParkingCalendarTestDataBuilder parkingCalendarTestDataBuilder;
 
     public ParkingAttendantImplementationTests() {
-        vehicleTestDataBuilder = new VehicleTestDataBuilder();
+        VehicleTestDataBuilder vehicleTestDataBuilder = new VehicleTestDataBuilder();
         vehicle = vehicleTestDataBuilder.build();
         parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();
     }
