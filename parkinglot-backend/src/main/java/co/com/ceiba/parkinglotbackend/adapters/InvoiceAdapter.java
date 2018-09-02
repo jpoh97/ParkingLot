@@ -7,17 +7,19 @@ import org.springframework.data.domain.Page;
 
 public class InvoiceAdapter {
 
-    public static InvoiceDTO invoiceToDTO(Invoice invoice) {
+    private InvoiceAdapter() {}
+
+    public static InvoiceDTO invoiceToDto(Invoice invoice) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(invoice, InvoiceDTO.class);
     }
 
-    public static Invoice DTOToInvoice(InvoiceDTO invoiceDTO) {
+    public static Invoice dtoToInvoice(InvoiceDTO invoiceDTO) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(invoiceDTO, Invoice.class);
     }
 
-    public static Page<InvoiceDTO> invoiceListToDTOList(Page<Invoice> invoices) {
-        return invoices.map(InvoiceAdapter::invoiceToDTO);
+    public static Page<InvoiceDTO> invoiceListToDtoList(Page<Invoice> invoices) {
+        return invoices.map(InvoiceAdapter::invoiceToDto);
     }
 }

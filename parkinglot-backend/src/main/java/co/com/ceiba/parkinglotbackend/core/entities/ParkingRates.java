@@ -22,6 +22,20 @@ public class ParkingRates {
     @NotNull
     private Boolean active;
 
+    public ParkingRates() {}
+
+    /**
+     * Constructor for unit test
+     */
+    public ParkingRates(@NotNull Long hourPrice, @NotNull Long dayPrice, Long extraPrice) {
+        this.hourPrice = hourPrice;
+        this.dayPrice = dayPrice;
+        this.extraPrice = extraPrice;
+        this.creationDate = LocalDate.now();
+        this.active = true;
+        this.vehicleType = new VehicleType();
+    }
+
     public Integer getId() {
         return id;
     }

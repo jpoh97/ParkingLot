@@ -7,6 +7,14 @@ public class VehicleDTO {
     private Optional<Integer> cylinderCapacity;
     private String vehicleTypeName;
 
+    public VehicleDTO() {}
+
+    public VehicleDTO(String licensePlate, Optional<Integer> cylinderCapacity, String vehicleTypeName) {
+        this.licensePlate = licensePlate;
+        this.cylinderCapacity = cylinderCapacity;
+        this.vehicleTypeName = vehicleTypeName;
+    }
+
     public String getLicensePlate() {
         return licensePlate;
     }

@@ -10,14 +10,14 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotNull
     private Vehicle vehicle;
     @NotNull
     private LocalDateTime entryDate;
     private LocalDateTime departureDate;
     private Long price;
-    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotNull
     private ParkingRates parkingRates;
 
@@ -58,7 +58,7 @@ public class Invoice {
     }
 
     public void setDepartureDate(Optional<LocalDateTime> departureDate) {
-        this.departureDate = departureDate.get();
+        departureDate.ifPresent(localDateTime -> this.departureDate = localDateTime);
     }
 
     public Optional<Long> getPrice() {
@@ -66,7 +66,7 @@ public class Invoice {
     }
 
     public void setPrice(Optional<Long> price) {
-        this.price = price.get();
+        price.ifPresent(aLong -> this.price = aLong);
     }
 
     public ParkingRates getParkingRates() {

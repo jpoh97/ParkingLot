@@ -1,6 +1,6 @@
 package co.com.ceiba.parkinglotbackend.exceptions.handler;
 
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.*;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,8 +18,8 @@ public class CustomizedResponseEntityExceptionHandler {
             VehicleDoesNotExistException.class
     })
     @ResponseBody
-    public ErrorReponse notFoundRequest(Exception exception, HttpServletRequest request) {
-        return new ErrorReponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
+    public ErrorResponse notFoundRequest(Exception exception, HttpServletRequest request) {
+        return new ErrorResponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase());
     }
 
@@ -27,11 +27,14 @@ public class CustomizedResponseEntityExceptionHandler {
     @ExceptionHandler({
             InvalidDatesException.class,
             VehicleDataException.class,
-            VehicleAlreadyExistsInParkingLotException.class
+            VehicleAlreadyExistsInParkingLotException.class,
+            InvoiceDataException.class,
+            VehicleTypeDataException.class,
+            ParkingRatesDataException.class
     })
     @ResponseBody
-    public ErrorReponse badRequest(Exception exception, HttpServletRequest request) {
-        return new ErrorReponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
+    public ErrorResponse badRequest(Exception exception, HttpServletRequest request) {
+        return new ErrorResponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase());
     }
 
@@ -40,8 +43,8 @@ public class CustomizedResponseEntityExceptionHandler {
             InvalidDayLicensePlateException.class
     })
     @ResponseBody
-    public ErrorReponse forbiddenRequest(Exception exception, HttpServletRequest request) {
-        return new ErrorReponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
+    public ErrorResponse forbiddenRequest(Exception exception, HttpServletRequest request) {
+        return new ErrorResponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
                 HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase());
     }
 
@@ -50,8 +53,8 @@ public class CustomizedResponseEntityExceptionHandler {
             NoSpaceAvailableException.class
     })
     @ResponseBody
-    public ErrorReponse noContentRequest(Exception exception, HttpServletRequest request) {
-        return new ErrorReponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
+    public ErrorResponse noContentRequest(Exception exception, HttpServletRequest request) {
+        return new ErrorResponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
                 HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase());
     }
 }

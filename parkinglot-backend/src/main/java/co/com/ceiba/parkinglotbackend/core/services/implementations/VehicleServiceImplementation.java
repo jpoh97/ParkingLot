@@ -3,10 +3,11 @@ package co.com.ceiba.parkinglotbackend.core.services.implementations;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDataException;
-import co.com.ceiba.parkinglotbackend.exceptions.Implementations.VehicleDoesNotExistException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import co.com.ceiba.parkinglotbackend.core.repositories.VehicleRepository;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,10 @@ public class VehicleServiceImplementation implements VehicleService {
         this.vehicleTypeService = vehicleTypeService;
     }
 
-    public Page<Vehicle> getAll(Pageable pageable) {
+    public Page<Vehicle> getAll(Pageable pageable) throws VehicleDataException {
+        if(!Optional.ofNullable(pageable).isPresent()) {
+            throw new VehicleDataException();
+        }
         return vehicleRepository.findAll(pageable);
     }
 
@@ -46,21 +50,25 @@ public class VehicleServiceImplementation implements VehicleService {
         }
         Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(newVehicle.get().getLicensePlate());
         if (vehicle.isPresent()) {
-            if(newVehicle.get().getCylinderCapacity().isPresent()
-                    && !vehicle.get().getCylinderCapacity().get().equals(newVehicle.get().getCylinderCapacity().get())) {
+            if(newVehicle.get().getCylinderCapacity().isPresent() && vehicle.get().getCylinderCapacity().isPresent()
+                    && !newVehicle.get().getCylinderCapacity().get().equals(vehicle.get().getCylinderCapacity().get())) {
                 vehicle.get().setCylinderCapacity(newVehicle.get().getCylinderCapacity());
-                vehicleRepository.save(vehicle.get());
+                vehicle = Optional.ofNullable(vehicleRepository.save(vehicle.get()));
             }
             return vehicle;
         }
-        return newVehicle;
+        vehicle = Optional.ofNullable(vehicleRepository.save(newVehicle.get()));
+        return vehicle;
     }
 
     public Vehicle getNewVehicle(String licensePlate, String vehicleTypeString, Integer cylinderCapacity)
-            throws VehicleDataException {
+            throws VehicleDataException, VehicleTypeDataException {
+        if (null == licensePlate || null == vehicleTypeString) {
+            throw new VehicleDataException();
+        }
         Optional<VehicleType> vehicleType = vehicleTypeService.getCurrentVehicleType(vehicleTypeString.trim().toUpperCase());
         if (!vehicleType.isPresent()) {
-            throw new VehicleDataException();
+            throw new VehicleTypeDataException();
         }
         return new Vehicle(licensePlate.trim().toUpperCase(), cylinderCapacity, vehicleType.get(), LocalDateTime.now());
     }

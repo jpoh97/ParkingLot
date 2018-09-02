@@ -7,17 +7,19 @@ import org.springframework.data.domain.Page;
 
 public class VehicleAdapter {
 
-    public static VehicleDTO vehicleToDTO(Vehicle vehicle) {
+    private VehicleAdapter() {}
+
+    public static VehicleDTO vehicleToDto(Vehicle vehicle) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(vehicle, VehicleDTO.class);
     }
 
-    public static Vehicle DTOToVehicle(VehicleDTO vehicleDTO) {
+    public static Vehicle dtoToVehicle(VehicleDTO vehicleDTO) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(vehicleDTO, Vehicle.class);
     }
 
-    public static Page<VehicleDTO> vehicleListToDTOList(Page<Vehicle> vehicles) {
-        return vehicles.map(VehicleAdapter::vehicleToDTO);
+    public static Page<VehicleDTO> vehicleListToDtoList(Page<Vehicle> vehicles) {
+        return vehicles.map(VehicleAdapter::vehicleToDto);
     }
 }

@@ -3,6 +3,7 @@ package co.com.ceiba.parkinglotbackend.core.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,18 @@ public class VehicleType {
     @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @NotNull
     private List<ParkingRates> parkingRates;
+
+    public VehicleType() {}
+
+    /**
+     * Constructor for unit test
+     */
+    public VehicleType(@NotNull String name, @NotNull Integer totalPlaces) {
+        this.name = name;
+        this.totalPlaces = totalPlaces;
+        this.creationDate = LocalDateTime.now();
+        this.parkingRates = new ArrayList<>();
+    }
 
     public Integer getId() {
         return id;

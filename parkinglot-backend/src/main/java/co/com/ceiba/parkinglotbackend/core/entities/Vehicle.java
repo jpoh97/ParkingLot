@@ -14,7 +14,7 @@ public class Vehicle {
     @NotNull
     private String licensePlate;
     private Integer cylinderCapacity;
-    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotNull
     private VehicleType vehicleType;
     @NotNull
@@ -50,7 +50,7 @@ public class Vehicle {
     }
 
     public void setCylinderCapacity(Optional<Integer> cylinderCapacity) {
-        this.cylinderCapacity = cylinderCapacity.get();
+        cylinderCapacity.ifPresent(integer -> this.cylinderCapacity = integer);
     }
 
     public VehicleType getVehicleType() {
