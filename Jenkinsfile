@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo "------------>Checkout<------------"
                 checkout([$class                           : 'GitSCM',
-                          branches                         : [[name: '*/master']],
+                          branches                         : [[name: 'develop']],
                           doGenerateSubmoduleConfigurations: false,
                           extensions                       : [],
                           gitTool                          : 'Git_Centos',
@@ -27,8 +27,8 @@ pipeline {
         stage('Compile') {
 			steps{
 				echo "------------>Compile<------------"
-				sh 'gradle --b ./parkinglot-backend/build.gradle compileJava'
                 sh 'gradle --b ./parkinglot-backend/build.gradle clean'
+				sh 'gradle --b ./parkinglot-backend/build.gradle compileJava'
 			}
 		}
         stage('Unit Tests') {
