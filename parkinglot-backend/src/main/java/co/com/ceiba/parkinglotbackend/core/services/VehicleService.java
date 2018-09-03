@@ -4,7 +4,6 @@ import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
-import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
