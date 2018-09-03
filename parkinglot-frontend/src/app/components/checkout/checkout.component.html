@@ -1,8 +1,27 @@
-<form>
+
     <div class="form-group">
         <label for="licensePlate">License plate</label>
         <input type="text" (keyup)="onKey($event)" class="form-control" id="licensePlate" aria-describedby="help" placeholder="Enter license plate" required>
     </div>
-    <button type="submit" class="btn btn-primary" (click)="checkOutClick()">Check Out</button>
-</form>
+    <button type="submit" class="btn btn-primary" (click)="validateData()">Check Out</button>
 <br/>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document" [ngStyle]="{'display':display}">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Confirmation message</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to check out vehicle wiht license plate <strong>{{licensePlate}}</strong>?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="checkOutClick()">Yes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">No</button>
+            </div>
+          </div>
+        </div>
+      </div>

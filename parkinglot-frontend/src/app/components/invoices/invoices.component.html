@@ -3,17 +3,13 @@
   <thead class="thead-dark">
   <tr>
     <th scope="col">License Plate</th>
-    <th scope="col">Price</th>
     <th scope="col">Vehicle Type</th>
     <th scope="col">Entry Date</th>
-    <th scope="col">Departure Date</th>
   </tr>
   </thead>
   <tr *ngFor="let invoice of invoices">
       <td scope="row">{{ invoice.vehicleLicensePlate }}</td>
-      <td>{{ invoice.price }}</td>
       <td>{{ invoice.vehicleTypeName }}</td>
       <td>{{ invoice.entryDate | date: 'medium' }}</td>
-      <td>{{ invoice.departureDate | date: 'medium' }}</td>
   </tr>
 </table>

@@ -1,18 +1,8 @@
-import { Vehicle } from './../../models/vehicle.model';
+import { Vehicle, VehcileClass } from './../../models/vehicle.model';
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from './../../services/vehicle.service';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-
-class VehcileClass implements Vehicle {
-  licensePlate: string;  
-  cylinderCapacity: number;
-  vehicleTypeName: string;
-  constructor(licensePlate: string,  cylinderCapacity: number, vehicleTypeName: string) { 
-    this.licensePlate = licensePlate;  
-    this.cylinderCapacity = cylinderCapacity;
-    this.vehicleTypeName = vehicleTypeName;
-  }
-}
 
 @Component({
   selector: 'checkin',
@@ -20,6 +10,7 @@ class VehcileClass implements Vehicle {
   styleUrls: ['./checkin.component.css']
 })
 export class CheckinComponent implements OnInit {
+
   vehicleTypes = [
     {id:'1', name:'CAR'},
     {id:'2', name:'MOTORCYCLE'}
@@ -28,18 +19,48 @@ export class CheckinComponent implements OnInit {
   cylinderCapacity: number = 0;
   currentVehicleType = "CAR";
   vehicle: Vehicle;
+  display = 'none';
 
-  constructor(private service: VehicleService, private router: Router) { }
+  constructor(private service: VehicleService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit() {
   }
 
+  isValidLicensePlate(): boolean {
+    return (this.licensePlate.trim().length > 0)
+  }
+
+  isValidCylinderCapacity(): boolean {
+    return (null != this.cylinderCapacity && undefined != this.cylinderCapacity && this.cylinderCapacity.toString() != ""
+      && this.cylinderCapacity >= 0)
+  }
+  
+  validateData() {
+    if(!this.isValidLicensePlate()){
+      this.toastr.error('License plate cannot be null or empty', 'Error!');
+      return;
+    }
+    if(!this.isValidCylinderCapacity()){
+      this.toastr.error('Cylinder capacity must be greater than zero', 'Error!');
+      return;
+    }
+    this.licensePlate = this.licensePlate.toUpperCase();
+    this.openModal();
+  }
+
   checkInClick() {
-    console.log(this.licensePlate);
     this.vehicle = new VehcileClass(this.licensePlate, this.cylinderCapacity, this.currentVehicleType);
-    console.log(this.vehicle);
-    this.service.checkIn(this.vehicle).subscribe();
-    this.router.navigate(["/invoices"]);
+    this.service.checkIn(this.vehicle).subscribe(
+      checkInResponse => {
+        this.router.navigate(['invoices']);
+        this.toastr.success('Success CheckIn for vehicle ' + this.licensePlate);
+      },
+      (error) => {
+        if (error.status !== 201) {          
+          this.toastr.error(JSON.parse(error._body)['message'], 'Error!');
+          this.closeModal();
+        }
+      });
   }
 
   onKeyLicensePlate(event: any) {
@@ -52,5 +73,13 @@ export class CheckinComponent implements OnInit {
 
   changeType(event: any) {
     this.currentVehicleType = event.value;
+  }
+
+  openModal() {
+    this.display = 'block';
+  }
+
+  closeModal() {
+    this.display = 'none';
   }
 }

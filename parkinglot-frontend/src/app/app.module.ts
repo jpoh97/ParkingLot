@@ -5,6 +5,10 @@ import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http'
 import { HttpModule } from '@angular/http';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -65,7 +69,10 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(
       appRoutes
-    )
+    ),
+    CommonModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot() // ToastrModule added
   ],
   providers: [
     InvoiceService,

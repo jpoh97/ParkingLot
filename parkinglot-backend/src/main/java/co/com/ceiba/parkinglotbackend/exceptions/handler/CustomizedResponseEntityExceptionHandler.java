@@ -30,7 +30,8 @@ public class CustomizedResponseEntityExceptionHandler {
             VehicleAlreadyExistsInParkingLotException.class,
             InvoiceDataException.class,
             VehicleTypeDataException.class,
-            ParkingRatesDataException.class
+            ParkingRatesDataException.class,
+            NoSpaceAvailableException.class
     })
     @ResponseBody
     public ErrorResponse badRequest(Exception exception, HttpServletRequest request) {
@@ -46,15 +47,5 @@ public class CustomizedResponseEntityExceptionHandler {
     public ErrorResponse forbiddenRequest(Exception exception, HttpServletRequest request) {
         return new ErrorResponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
                 HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase());
-    }
-
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ExceptionHandler({
-            NoSpaceAvailableException.class
-    })
-    @ResponseBody
-    public ErrorResponse noContentRequest(Exception exception, HttpServletRequest request) {
-        return new ErrorResponse(exception.getMessage(), request.getRequestURI(), request.getMethod(), LocalDateTime.now(),
-                HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase());
     }
 }
