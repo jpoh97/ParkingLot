@@ -5,6 +5,7 @@ import co.com.ceiba.parkinglotbackend.core.repositories.VehicleRepository;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
 import co.com.ceiba.parkinglotbackend.core.services.implementations.VehicleServiceImplementation;
+import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
@@ -134,7 +135,7 @@ public class VehicleServiceImplementationTests {
     }
 
     @Test
-    public void getNewVehicleTest() throws VehicleTypeDataException, VehicleDataException {
+    public void getNewVehicleTest() throws BaseException {
         when(mockVehicleTypeService.getCurrentVehicleType(anyString())).thenReturn(Optional.ofNullable(vehicle.getVehicleType()));
         sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
 
@@ -148,7 +149,7 @@ public class VehicleServiceImplementationTests {
     }
 
     @Test(expected = VehicleDataException.class)
-    public void getNewVehicleWithoutParams() throws VehicleDataException, VehicleTypeDataException {
+    public void getNewVehicleWithoutParams() throws BaseException {
         sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         sut.getNewVehicle(null, null, null);
     }
