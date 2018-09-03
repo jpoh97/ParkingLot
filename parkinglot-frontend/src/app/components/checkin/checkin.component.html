@@ -1,15 +1,15 @@
     <div class="form-group">
         <label for="licensePlate">License plate</label>
-        <input type="text" (change)="onKeyLicensePlate($event)" class="form-control" id="licensePlate" aria-describedby="help" placeholder="Enter license plate" required>
+        <input type="text" (change)="onKeyLicensePlate($event)" (focusout)="searchVehicle($event.target.value)" class="form-control" id="licensePlate" aria-describedby="help" placeholder="Enter license plate" required>
         <small id="help" class="form-text text-muted">The license plates that start with A can only enter on Sunday or Monday.</small>
     </div>
     <div class="form-group">
         <label for="cylinderCapacity">Cylinder Capacity</label>
-        <input type="number" (change)="onKeyCylinderCapacity($event)" class="form-control" id="cylinderCapacity" aria-describedby="help" placeholder="Enter cylinder capacity" value="0" required>
+        <input type="number" (change)="onKeyCylinderCapacity($event)" class="form-control" id="cylinderCapacity" aria-describedby="help" placeholder="Enter cylinder capacity" value="{{ cylinderCapacity }}" required>
     </div>
     <div class="form-group">
         <label for="vehicleType">Vehicle Type</label>
-        <select class="form-control" id="vehicleType" (change)="changeType($event.target)">
+        <select class="form-control" id="vehicleType" (change)="changeType($event.target)" value="{{currentVehicleType}}" [disabled]="disabled">
           <option *ngFor="let typeOfVehicle of vehicleTypes" [(value)]="typeOfVehicle.name">{{ typeOfVehicle.name }}</option>
         </select>
     </div>

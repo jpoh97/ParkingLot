@@ -20,10 +20,27 @@ export class CheckinComponent implements OnInit {
   currentVehicleType = "CAR";
   vehicle: Vehicle;
   display = 'none';
+  response: any;
+  disabled = false;
 
   constructor(private service: VehicleService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  searchVehicle(license) {
+    this.disabled = false;
+    if(this.isValidLicensePlate()) {
+      this.service.getOne(this.licensePlate).subscribe(
+        vehicleResponse => {
+          this.response = vehicleResponse;
+          this.vehicle = this.response;
+          this.cylinderCapacity = this.vehicle.cylinderCapacity;
+          this.currentVehicleType = this.vehicle.vehicleTypeName;
+          this.disabled = true;
+        }
+      )
+    }
   }
 
   isValidLicensePlate(): boolean {
@@ -65,6 +82,7 @@ export class CheckinComponent implements OnInit {
 
   onKeyLicensePlate(event: any) {
     this.licensePlate = event.target.value;
+    this.disabled = false;
   }
 
   onKeyCylinderCapacity(event: any) { 

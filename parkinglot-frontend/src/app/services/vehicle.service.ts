@@ -15,6 +15,10 @@ export class VehicleService {
     return this.httpClient.get(this.url);
   }
 
+  getOne(vehicle: string) {  
+    return this.httpClient.get(this.url+"/"+vehicle);
+  }
+
   checkOut(vehicle: string) {  
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
