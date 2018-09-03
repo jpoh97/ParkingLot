@@ -1,0 +1,8 @@
+<form>
+    <div class="form-group">
+        <label for="licensePlate">License plate</label>
+        <input type="text" (keyup)="onKey($event)" class="form-control" id="licensePlate" aria-describedby="help" placeholder="Enter license plate" required>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="checkOutClick()">Check Out</button>
+</form>
+<br/>

@@ -3,6 +3,7 @@ package co.com.ceiba.parkinglotbackend.core.services.implementations;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
+import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import co.com.ceiba.parkinglotbackend.core.repositories.VehicleRepository;
@@ -62,7 +63,7 @@ public class VehicleServiceImplementation implements VehicleService {
     }
 
     public Vehicle getNewVehicle(String licensePlate, String vehicleTypeString, Integer cylinderCapacity)
-            throws VehicleDataException, VehicleTypeDataException {
+            throws BaseException {
         if (null == licensePlate || null == vehicleTypeString) {
             throw new VehicleDataException();
         }

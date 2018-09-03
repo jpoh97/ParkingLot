@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-public class ParkingCalendarUtil {
+public final class ParkingCalendarUtil {
 
     private ParkingCalendarUtil() {}
 

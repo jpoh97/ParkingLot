@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("vehicle")
 public class VehicleRestController {
 
@@ -42,7 +42,9 @@ public class VehicleRestController {
     @GetMapping("{licensePlate}")
     public ResponseEntity<VehicleDTO> getVehicle(@PathVariable String licensePlate) throws VehicleDoesNotExistException {
         Optional<Vehicle> vehicle = vehicleService.get(Optional.ofNullable(licensePlate));
-        if (!vehicle.isPresent()) { throw new VehicleDoesNotExistException(); }
+        if (!vehicle.isPresent()) {
+            throw new VehicleDoesNotExistException();
+        }
         VehicleDTO vehicleDTO = VehicleAdapter.vehicleToDto(vehicle.get());
         return new ResponseEntity<>(vehicleDTO, getHeaders(), HttpStatus.OK);
     }

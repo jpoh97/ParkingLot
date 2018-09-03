@@ -1,6 +1,7 @@
 package co.com.ceiba.parkinglotbackend.core.services;
 
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
+import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
@@ -15,7 +16,7 @@ public interface VehicleService {
 
     Optional<Vehicle> get(Optional<String> licensePlate) throws VehicleDoesNotExistException;
 
-    Vehicle getNewVehicle(String licensePlate, String vehicleTypeString, Integer cylinderCapacity) throws VehicleDataException, VehicleTypeDataException;
+    Vehicle getNewVehicle(String licensePlate, String vehicleTypeString, Integer cylinderCapacity) throws BaseException;
 
     Optional<Vehicle> add(Optional<Vehicle> newVehicle) throws VehicleDataException;
 

@@ -5,7 +5,7 @@ import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
-public class InvoiceAdapter {
+public final class InvoiceAdapter {
 
     private InvoiceAdapter() {}
 

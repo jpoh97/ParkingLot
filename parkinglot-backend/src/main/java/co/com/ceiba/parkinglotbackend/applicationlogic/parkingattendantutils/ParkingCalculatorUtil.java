@@ -5,7 +5,7 @@ import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvalidDatesExc
 
 import java.time.LocalDateTime;
 
-public class ParkingCalculatorUtil {
+public final class ParkingCalculatorUtil {
 
     private ParkingCalculatorUtil() {}
 

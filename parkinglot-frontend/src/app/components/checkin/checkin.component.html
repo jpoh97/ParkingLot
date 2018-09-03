@@ -1,0 +1,19 @@
+<form>
+    <div class="form-group">
+        <label for="licensePlate">License plate</label>
+        <input type="text" (keyup)="onKeyLicensePlate($event)" class="form-control" id="licensePlate" aria-describedby="help" placeholder="Enter license plate" required>
+        <small id="help" class="form-text text-muted">The license plates that start with A can only enter on Sunday or Monday.</small>
+    </div>
+    <div class="form-group">
+        <label for="cylinderCapacity">Cylinder Capacity</label>
+        <input type="number" (keyup)="onKeyCylinderCapacity($event)" class="form-control" id="cylinderCapacity" aria-describedby="help" placeholder="Enter cylinder capacity" required>
+    </div>
+    <div class="form-group">
+        <label for="vehicleType">Vehicle Type</label>
+        <select class="form-control" id="vehicleType" (change)="changeType($event.target)">
+          <option *ngFor="let typeOfVehicle of vehicleTypes" [(value)]="typeOfVehicle.name">{{ typeOfVehicle.name }}</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="checkInClick()">Check In</button>
+</form>
+<br/>

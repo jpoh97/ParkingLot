@@ -49,9 +49,7 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
         Optional<Vehicle> vehicle;
 
         if (null == vehicleResponse
-                || null == vehicleResponse.getVehicleType()
-                || null == vehicleResponse.getVehicleType().getName()
-                || null == vehicleResponse.getLicensePlate()
+                || isValidCheckInResponse(vehicleResponse)
                 || !vehicleResponse.getCylinderCapacity().isPresent()) {
             throw new VehicleDataException();
         }
@@ -92,6 +90,12 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
         for (ParkingValidation parkingValidation : parkingValidations) {
             parkingValidation.execute(vehicle);
         }
+    }
+
+    private Boolean isValidCheckInResponse(Vehicle vehicleResponse) {
+        return null == vehicleResponse.getVehicleType()
+                || null == vehicleResponse.getVehicleType().getName()
+                || null == vehicleResponse.getLicensePlate();
     }
 
     public Invoice vehicleCheckOut(String licensePlate, LocalDateTime departureDate) throws BaseException {
