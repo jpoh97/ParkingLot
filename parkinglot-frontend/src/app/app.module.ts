@@ -25,7 +25,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 const appRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: CheckinComponent
   },
   {
     path: 'checkin',
