@@ -31,7 +31,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class VehicleServiceImplementationTests {
+public class VehicleServiceTests {
 
     @Mock
     private VehicleRepository mockVehicleRepository;
@@ -115,6 +115,7 @@ public class VehicleServiceImplementationTests {
     @Test
     public void addExistingVehicle() throws VehicleDataException {
         // arrange
+        vehicle = vehicleTestDataBuilder.withLicensePlate(vehicle.getLicensePlate().toUpperCase()).build();
         when(mockVehicleRepository.findByLicensePlate(anyString())).thenReturn(Optional.ofNullable(vehicle));
         when(mockVehicleRepository.save(any())).thenReturn(vehicle);
         sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);

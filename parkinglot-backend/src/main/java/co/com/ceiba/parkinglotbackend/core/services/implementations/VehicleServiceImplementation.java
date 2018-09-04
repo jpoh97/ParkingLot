@@ -49,6 +49,7 @@ public class VehicleServiceImplementation implements VehicleService {
         if (!newVehicle.isPresent() || null == newVehicle.get().getLicensePlate() || null == newVehicle.get().getVehicleType()) {
             throw new VehicleDataException();
         }
+        newVehicle.get().setLicensePlate(newVehicle.get().getLicensePlate().trim().toUpperCase());
         Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(newVehicle.get().getLicensePlate());
         if (vehicle.isPresent()) {
             if(newVehicle.get().getCylinderCapacity().isPresent() && vehicle.get().getCylinderCapacity().isPresent()

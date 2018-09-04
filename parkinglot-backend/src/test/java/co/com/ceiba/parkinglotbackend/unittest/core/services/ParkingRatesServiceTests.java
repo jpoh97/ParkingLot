@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ParkingRatesServiceImplementationTests {
+public class ParkingRatesServiceTests {
 
     @Mock
     private ParkingRatesRepository mockParkingRatesRepository;

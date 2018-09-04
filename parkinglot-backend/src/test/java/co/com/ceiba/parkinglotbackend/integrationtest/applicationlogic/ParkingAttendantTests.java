@@ -1,4 +1,4 @@
-package co.com.ceiba.parkinglotbackend.integrationtest;
+package co.com.ceiba.parkinglotbackend.integrationtest.applicationlogic;
 
 import co.com.ceiba.parkinglotbackend.applicationlogic.ParkingAttendant;
 import co.com.ceiba.parkinglotbackend.applicationlogic.implementations.ParkingAttendantImplementation;
@@ -30,7 +30,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Transactional
-public class ParkingAttendantImplementationTests {
+public class ParkingAttendantTests {
 
     private ParkingAttendant sut;
 
@@ -48,7 +48,7 @@ public class ParkingAttendantImplementationTests {
     private Vehicle vehicle;
     private ParkingCalendarTestDataBuilder parkingCalendarTestDataBuilder;
 
-    public ParkingAttendantImplementationTests() {
+    public ParkingAttendantTests() {
         VehicleTestDataBuilder vehicleTestDataBuilder = new VehicleTestDataBuilder();
         vehicle = vehicleTestDataBuilder.build();
         parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();

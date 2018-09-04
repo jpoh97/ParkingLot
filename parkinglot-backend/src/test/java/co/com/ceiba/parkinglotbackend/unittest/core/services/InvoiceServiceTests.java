@@ -29,7 +29,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class InvoiceServiceImplementationTests {
+public class InvoiceServiceTests {
 
     @Mock
     private InvoiceRepository mockInvoiceRepository;
