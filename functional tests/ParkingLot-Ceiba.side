@@ -1,0 +1,143 @@
+{
+  "id": "f65db9d4-d2e6-4608-8371-1cf2db2d9c88",
+  "version": "1.1",
+  "name": "ParkingLot-Ceiba",
+  "url": "http://localhost:4200",
+  "tests": [{
+    "id": "73ee41d3-8036-40c2-9df1-4e5a5d9b9b1d",
+    "name": "Untitled",
+    "commands": [{
+      "id": "86c52f3e-ded6-4893-8a29-0f7e712e182a",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "dc574267-ad37-449b-9a6f-a5b4b64f4fd4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Check In",
+      "targets": [
+        ["linkText=Check In", "linkText"],
+        ["css=a.nav-link", "css"],
+        ["xpath=//a[contains(text(),'Check In')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/checkin')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d4533191-1d1c-4f4e-a416-5fbfdd0098ac",
+      "comment": "",
+      "command": "type",
+      "target": "id=licensePlate",
+      "targets": [
+        ["id=licensePlate", "id"],
+        ["css=#licensePlate", "css"],
+        ["xpath=//input[@id='licensePlate']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "ssh42a"
+    }, {
+      "id": "dc8e19aa-f538-462a-847d-1eeb70654dda",
+      "comment": "",
+      "command": "click",
+      "target": "id=cylinderCapacity",
+      "targets": [
+        ["id=cylinderCapacity", "id"],
+        ["css=#cylinderCapacity", "css"],
+        ["xpath=//input[@id='cylinderCapacity']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "266d17f3-9b22-4c9b-b5c9-77dc05044700",
+      "comment": "",
+      "command": "type",
+      "target": "id=cylinderCapacity",
+      "targets": [
+        ["id=cylinderCapacity", "id"],
+        ["css=#cylinderCapacity", "css"],
+        ["xpath=//input[@id='cylinderCapacity']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "420"
+    }, {
+      "id": "43192ace-4130-4cff-9367-cc4dab5bd708",
+      "comment": "",
+      "command": "click",
+      "target": "css=button.btn.btn-primary",
+      "targets": [
+        ["css=button.btn.btn-primary", "css"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "78063fd3-8fb3-409f-b4de-23b6e37c25de",
+      "comment": "",
+      "command": "click",
+      "target": "css=div.modal-footer > button.btn.btn-primary",
+      "targets": [
+        ["css=div.modal-footer > button.btn.btn-primary", "css"],
+        ["xpath=(//button[@type='button'])[2]", "xpath:attributes"],
+        ["xpath=//div[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "83cb01b9-a6f8-41ae-9874-4d21f01d59b1",
+      "comment": "",
+      "command": "click",
+      "target": "css=div.toast-message.ng-star-inserted",
+      "targets": [
+        ["css=div.toast-message.ng-star-inserted", "css"],
+        ["xpath=//div[@id='toast-container']/div/div", "xpath:idRelative"],
+        ["xpath=//body/div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "48a689f1-c387-4dc0-bf7c-385683bd7d48",
+      "comment": "",
+      "command": "click",
+      "target": "css=button.btn.btn-danger",
+      "targets": [
+        ["css=button.btn.btn-danger", "css"],
+        ["xpath=(//button[@type='button'])[4]", "xpath:attributes"],
+        ["xpath=//td[4]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "69c06eab-ce87-4fdd-b303-04e81fd71ce1",
+      "comment": "",
+      "command": "click",
+      "target": "css=app-invoices.ng-star-inserted > div.modal > div.modal-dialog > div.modal-content > div.modal-footer > button.btn.btn-primary",
+      "targets": [
+        ["css=app-invoices.ng-star-inserted > div.modal > div.modal-dialog > div.modal-content > div.modal-footer > button.btn.btn-primary", "css"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//app-invoices/div/div/div/div[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2b26d7fc-0476-4b4f-a5cc-3d286c9836ed",
+      "comment": "",
+      "command": "click",
+      "target": "css=div.toast-message.ng-star-inserted",
+      "targets": [
+        ["css=div.toast-message.ng-star-inserted", "css"],
+        ["xpath=//div[@id='toast-container']/div/div", "xpath:idRelative"],
+        ["xpath=//div/div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "f6deb4c8-404c-4edf-96c3-489711dee197",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["73ee41d3-8036-40c2-9df1-4e5a5d9b9b1d"]
+  }],
+  "urls": ["http://localhost:4200/"],
+  "plugins": []
+}

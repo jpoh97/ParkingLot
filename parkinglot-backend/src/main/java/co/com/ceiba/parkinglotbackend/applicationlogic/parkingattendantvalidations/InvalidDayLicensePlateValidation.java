@@ -10,6 +10,12 @@ import java.util.Optional;
 @Component
 public class InvalidDayLicensePlateValidation {
 
+    private ParkingCalendarUtil parkingCalendarUtil;
+
+    public InvalidDayLicensePlateValidation(ParkingCalendarUtil parkingCalendarUtil) {
+        this.parkingCalendarUtil = parkingCalendarUtil;
+    }
+
     public void execute(String licensePlate, LocalDateTime entryDate) throws InvalidDayLicensePlateException {
         if (!Optional.ofNullable(licensePlate).isPresent() || !isLicensePlateEnabledToEnter(licensePlate, entryDate)) {
             throw new InvalidDayLicensePlateException();
@@ -22,7 +28,7 @@ public class InvalidDayLicensePlateValidation {
 
     private Boolean isLicensePlateEnabledToEnter(String licensePlate, LocalDateTime entryDate) throws InvalidDayLicensePlateException {
         if (isLicensePlateStartingWithA(licensePlate)) {
-            return ParkingCalendarUtil.isSundayOrMonday(entryDate);
+            return parkingCalendarUtil.isSundayOrMonday(entryDate);
         }
         return true;
     }

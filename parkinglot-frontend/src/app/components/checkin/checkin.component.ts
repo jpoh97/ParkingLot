@@ -52,7 +52,9 @@ export class CheckinComponent implements OnInit {
       && this.cylinderCapacity >= 0)
   }
   
-  validateData() {
+  validateData(licensePlateInput, cylinderCapacityInput) {
+    this.licensePlate = licensePlateInput;
+    this.cylinderCapacity = cylinderCapacityInput;
     if(!this.isValidLicensePlate()){
       this.toastr.error('License plate cannot be null or empty', 'Error!');
       return;

@@ -1,0 +1,1 @@
+Functional tests with chrome selenium plugin. Test for the main flow (checkin and checkout) of parking lot application.

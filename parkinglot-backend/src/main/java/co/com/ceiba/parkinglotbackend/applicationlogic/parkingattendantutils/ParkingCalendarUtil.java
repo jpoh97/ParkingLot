@@ -2,22 +2,22 @@ package co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils;
 
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvalidDatesException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvalidDayLicensePlateException;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-public final class ParkingCalendarUtil {
-
-    private ParkingCalendarUtil() {}
+@Component
+public class ParkingCalendarUtil {
 
     private static final Long MINUTES_WITHOUT_EXTRA_PRICE = 5L;
     private static final Integer MINUTES_IN_A_HOUR = 60;
     private static final Integer HOURS_IN_A_DAY = 24;
     private static final Integer MINUTES_IN_A_DAY = MINUTES_IN_A_HOUR * HOURS_IN_A_DAY;
 
-    public static boolean isSundayOrMonday(LocalDateTime date) throws InvalidDayLicensePlateException {
+    public boolean isSundayOrMonday(LocalDateTime date) throws InvalidDayLicensePlateException {
         if (!Optional.ofNullable(date).isPresent()) {
             throw new InvalidDayLicensePlateException();
         }
@@ -26,12 +26,12 @@ public final class ParkingCalendarUtil {
     }
 
     /**
-     * The first 5 minutes does not matter.
+     * The first 5 minutes do not matter.
      * @param entryDate at parking lot
      * @param departureDate at parking lot
      * @return time in days and hours
      */
-    public static DifferenceTimes getDifferenceTime(LocalDateTime entryDate, LocalDateTime departureDate) throws InvalidDatesException {
+    public DifferenceTimes getDifferenceTime(LocalDateTime entryDate, LocalDateTime departureDate) throws InvalidDatesException {
         Long minutes = getDifferenceMinutes(entryDate, departureDate);
         if (minutes < 0) {
             throw new InvalidDatesException();
@@ -48,7 +48,7 @@ public final class ParkingCalendarUtil {
         return new DifferenceTimes(days, hours);
     }
 
-    private static Long getDifferenceMinutes(LocalDateTime entryDate, LocalDateTime departureDate) {
+    private Long getDifferenceMinutes(LocalDateTime entryDate, LocalDateTime departureDate) {
         return ChronoUnit.MINUTES.between(entryDate, departureDate);
     }
 

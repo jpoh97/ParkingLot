@@ -2,8 +2,10 @@ package co.com.ceiba.parkinglotbackend.integrationtest.applicationlogic;
 
 import co.com.ceiba.parkinglotbackend.applicationlogic.ParkingAttendant;
 import co.com.ceiba.parkinglotbackend.applicationlogic.implementations.ParkingAttendantImplementation;
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalculatorUtil;
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalendarUtil;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.InvalidDayLicensePlateValidation;
-import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.ParkingValidationFactory;
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.ParkingValidation;
 import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
@@ -24,6 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -34,13 +37,15 @@ public class ParkingAttendantTests {
 
     private ParkingAttendant sut;
 
+    @Autowired private ParkingCalculatorUtil parkingCalculatorUtil;
+
     // Services
     @Autowired private InvoiceService invoiceService;
     @Autowired private VehicleService vehicleService;
     @Autowired private ParkingRatesService parkingRatesService;
 
     // Validations
-    @Autowired private ParkingValidationFactory parkingValidationFactory;
+    @Autowired private List<ParkingValidation> parkingValidations;
     @Autowired private InvalidDayLicensePlateValidation invalidDayLicensePlateValidation;
 
     // other objects
@@ -57,7 +62,7 @@ public class ParkingAttendantTests {
     @Before
     public void setUp() {
         sut = new ParkingAttendantImplementation(invoiceService, vehicleService, parkingRatesService,
-                parkingValidationFactory, invalidDayLicensePlateValidation);
+                parkingValidations, invalidDayLicensePlateValidation, parkingCalculatorUtil);
     }
 
     @After

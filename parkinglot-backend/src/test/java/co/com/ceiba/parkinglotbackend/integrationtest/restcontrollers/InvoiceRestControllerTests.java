@@ -7,8 +7,6 @@ import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
 import co.com.ceiba.parkinglotbackend.core.services.VehicleTypeService;
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
-import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
-import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
 import co.com.ceiba.parkinglotbackend.restcontrollers.InvoiceRestController;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.InvoiceTestDataBuilder;
 import org.junit.After;
