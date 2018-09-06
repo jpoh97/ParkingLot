@@ -56,7 +56,7 @@ public class ParkingAttendantImplementationTests {
     @Autowired
     private List<ParkingValidation> parkingValidations;
 
-    // other objects
+    // Other objects
     private Invoice invoice;
     private Vehicle vehicle;
     private ParkingCalendarTestDataBuilder parkingCalendarTestDataBuilder;
