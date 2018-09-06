@@ -21,16 +21,16 @@ import java.util.Optional;
 @Component
 public class ParkingAttendantImplementation implements ParkingAttendant {
 
-    private ParkingCalendarUtil parkingCalendarUtil;
-    private ParkingCalculatorUtil parkingCalculatorUtil;
+    private final ThreadLocal<ParkingCalendarUtil> parkingCalendarUtil = new ThreadLocal<>();
+    private final ThreadLocal<ParkingCalculatorUtil> parkingCalculatorUtil = new ThreadLocal<>();
 
     // Services
-    private InvoiceService invoiceService;
-    private VehicleService vehicleService;
-    private ParkingRatesService parkingRatesService;
+    private final ThreadLocal<InvoiceService> invoiceService = new ThreadLocal<>();
+    private final ThreadLocal<VehicleService> vehicleService = new ThreadLocal<>();
+    private final ThreadLocal<ParkingRatesService> parkingRatesService = new ThreadLocal<>();
 
     // Validations
-    private List<ParkingValidation> parkingValidations;
+    private final ThreadLocal<List<ParkingValidation>> parkingValidations = new ThreadLocal<>();
 
     public ParkingAttendantImplementation(InvoiceService invoiceService,
                                           VehicleService vehicleService,
@@ -38,12 +38,12 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
                                           List<ParkingValidation> parkingValidations,
                                           ParkingCalendarUtil parkingCalendarUtil,
                                           ParkingCalculatorUtil parkingCalculatorUtil) {
-        this.invoiceService = invoiceService;
-        this.vehicleService = vehicleService;
-        this.parkingRatesService = parkingRatesService;
-        this.parkingValidations = parkingValidations;
-        this.parkingCalculatorUtil = parkingCalculatorUtil;
-        this.parkingCalendarUtil = parkingCalendarUtil;
+        this.invoiceService.set(invoiceService);
+        this.vehicleService.set(vehicleService);
+        this.parkingRatesService.set(parkingRatesService);
+        this.parkingValidations.set(parkingValidations);
+        this.parkingCalculatorUtil.set(parkingCalculatorUtil);
+        this.parkingCalendarUtil.set(parkingCalendarUtil);
     }
 
     public Invoice vehicleCheckIn(Vehicle vehicleResponse) throws BaseException {
@@ -53,32 +53,32 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
             throw new VehicleDataException();
         }
 
-        vehicle = Optional.ofNullable(vehicleService.getNewVehicle(vehicleResponse.getLicensePlate(),
+        vehicle = Optional.ofNullable(vehicleService.get().getNewVehicle(vehicleResponse.getLicensePlate(),
                 vehicleResponse.getVehicleType().getName(), vehicleResponse.getCylinderCapacity().get()));
 
         validateVehicleEntry(vehicle);
 
-        vehicle = vehicleService.add(vehicle);
+        vehicle = vehicleService.get().add(vehicle);
 
         if (!vehicle.isPresent()) {
             throw new VehicleDoesNotExistException();
         }
 
-        ParkingRates currentParkingRates = parkingRatesService.getCurrentParkingRatesFor(vehicle.get().getVehicleType(),
+        ParkingRates currentParkingRates = parkingRatesService.get().getCurrentParkingRatesFor(vehicle.get().getVehicleType(),
                 vehicle.get().getCylinderCapacity());
 
         if (!Optional.ofNullable(currentParkingRates).isPresent()) {
             throw new VehicleDataException();
         }
 
-        Invoice invoice = new Invoice(vehicle.get(), parkingCalendarUtil.getTodayDate(), currentParkingRates);
-        invoice = invoiceService.save(invoice);
+        Invoice invoice = new Invoice(vehicle.get(), parkingCalendarUtil.get().getTodayDate(), currentParkingRates);
+        invoice = invoiceService.get().save(invoice);
 
         return invoice;
     }
 
     private void validateVehicleEntry(Optional<Vehicle> vehicle) throws BaseException {
-        for (ParkingValidation parkingValidation : parkingValidations) {
+        for (ParkingValidation parkingValidation : parkingValidations.get()) {
             parkingValidation.execute(vehicle);
         }
     }
@@ -96,15 +96,15 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
             throw new VehicleDataException();
         }
 
-        Optional<Invoice> invoice = invoiceService.getVehicleInParking(licensePlate);
+        Optional<Invoice> invoice = invoiceService.get().getVehicleInParking(licensePlate);
         if (!invoice.isPresent()) {
             throw new VehicleDoesNotExistException();
         }
 
-        Long price = parkingCalculatorUtil.calculatePrice(invoice.get().getParkingRates(), invoice.get().getEntryDate());
+        Long price = parkingCalculatorUtil.get().calculatePrice(invoice.get().getParkingRates(), invoice.get().getEntryDate());
         invoice.get().setPrice(Optional.ofNullable(price));
-        invoice.get().setDepartureDate(Optional.of(parkingCalendarUtil.getTodayDate()));
-        invoiceService.save(invoice.get());
+        invoice.get().setDepartureDate(Optional.of(parkingCalendarUtil.get().getTodayDate()));
+        invoiceService.get().save(invoice.get());
 
         return invoice.get();
     }

@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("invoice")
 public class InvoiceRestController {
 
-    private InvoiceService invoiceService;
+    private final ThreadLocal<InvoiceService> invoiceService = new ThreadLocal<>();
 
     public InvoiceRestController(InvoiceService invoiceService) {
-        this.invoiceService = invoiceService;
+        this.invoiceService.set(invoiceService);
     }
 
     @GetMapping("history")
     public Page<InvoiceDTO> listAllInvoices(Pageable pageable) throws InvoiceDataException {
-        return InvoiceAdapter.invoiceListToDtoList(invoiceService.getAll(pageable));
+        return InvoiceAdapter.invoiceListToDtoList(invoiceService.get().getAll(pageable));
     }
 
     @GetMapping
     public Page<InvoiceDTO> listVehiclesInParking(Pageable pageable) throws InvoiceDataException {
-        return InvoiceAdapter.invoiceListToDtoList(invoiceService.getAllInParking(pageable));
+        return InvoiceAdapter.invoiceListToDtoList(invoiceService.get().getAllInParking(pageable));
     }
 }
