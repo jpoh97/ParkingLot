@@ -14,51 +14,51 @@ import java.util.stream.Stream;
 @Service
 public class InvoiceServiceImplementation implements InvoiceService {
 
-    private final ThreadLocal<InvoiceRepository> invoiceRepository = new ThreadLocal<>();
+    private final InvoiceRepository invoiceRepository;
 
     public InvoiceServiceImplementation(InvoiceRepository invoiceRepository) {
-        this.invoiceRepository.set(invoiceRepository);
+        this.invoiceRepository = invoiceRepository;
     }
 
     public Invoice save(Invoice invoice) throws InvoiceDataException {
         if(!Optional.ofNullable(invoice).isPresent()) {
             throw new InvoiceDataException();
         }
-        return invoiceRepository.get().save(invoice);
+        return invoiceRepository.save(invoice);
     }
 
     public Page<Invoice> getAll(Pageable pageable) throws InvoiceDataException {
         if(!Optional.ofNullable(pageable).isPresent()) {
             throw new InvoiceDataException();
         }
-        return invoiceRepository.get().findAll(pageable);
+        return invoiceRepository.findAll(pageable);
     }
 
     public Page<Invoice> getAllInParking(Pageable pageable) throws InvoiceDataException {
         if(!Optional.ofNullable(pageable).isPresent()) {
             throw new InvoiceDataException();
         }
-        return invoiceRepository.get().findAllByDepartureDateIsNull(pageable);
+        return invoiceRepository.findAllByDepartureDateIsNull(pageable);
     }
 
     public Stream<Invoice> getParkingSpacesInUseForVehicleType(String vehicleTypeName) throws InvoiceDataException {
         if(!Optional.ofNullable(vehicleTypeName).isPresent()) {
             throw new InvoiceDataException();
         }
-        return invoiceRepository.get().findAllByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
+        return invoiceRepository.findAllByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
     }
 
     public Long getParkingSpacesCountInUseForVehicleType(String vehicleTypeName) throws InvoiceDataException {
         if(!Optional.ofNullable(vehicleTypeName).isPresent()) {
             throw new InvoiceDataException();
         }
-        return invoiceRepository.get().countByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
+        return invoiceRepository.countByVehicleVehicleTypeNameAndDepartureDateIsNull(vehicleTypeName);
     }
 
     public Optional<Invoice> getVehicleInParking(String licensePlate) throws InvoiceDataException {
         if(!Optional.ofNullable(licensePlate).isPresent()) {
             throw new InvoiceDataException();
         }
-        return invoiceRepository.get().findByVehicleLicensePlateAndDepartureDateIsNull(licensePlate.trim().toUpperCase());
+        return invoiceRepository.findByVehicleLicensePlateAndDepartureDateIsNull(licensePlate.trim().toUpperCase());
     }
 }

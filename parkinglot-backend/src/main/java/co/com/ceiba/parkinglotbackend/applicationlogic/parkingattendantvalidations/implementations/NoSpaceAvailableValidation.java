@@ -14,19 +14,19 @@ import java.util.Optional;
 @Component
 public class NoSpaceAvailableValidation implements ParkingValidation {
 
-    private final ThreadLocal<InvoiceService> invoiceService = new ThreadLocal<>();
-    private final ThreadLocal<VehicleTypeService> vehicleTypeService = new ThreadLocal<>();
+    private final InvoiceService invoiceService;
+    private final VehicleTypeService vehicleTypeService;
 
     public NoSpaceAvailableValidation(InvoiceService invoiceService, VehicleTypeService vehicleTypeService) {
-        this.invoiceService.set(invoiceService);
-        this.vehicleTypeService.set(vehicleTypeService);
+        this.invoiceService = invoiceService;
+        this.vehicleTypeService = vehicleTypeService;
     }
 
     public void execute(Optional<Vehicle> vehicle) throws BaseException {
         if (vehicle.isPresent()) {
-            Long spacesInUse = invoiceService.get().getParkingSpacesCountInUseForVehicleType(
+            Long spacesInUse = invoiceService.getParkingSpacesCountInUseForVehicleType(
                     vehicle.get().getVehicleType().getName());
-            Optional<VehicleType> vehicleType = vehicleTypeService.get().getCurrentVehicleType(
+            Optional<VehicleType> vehicleType = vehicleTypeService.getCurrentVehicleType(
                     vehicle.get().getVehicleType().getName());
 
             if (!vehicleType.isPresent()

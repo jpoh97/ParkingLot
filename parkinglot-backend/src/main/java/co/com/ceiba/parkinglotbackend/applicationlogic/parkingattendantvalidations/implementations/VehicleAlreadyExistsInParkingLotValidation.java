@@ -13,16 +13,16 @@ import java.util.Optional;
 @Component
 public class VehicleAlreadyExistsInParkingLotValidation implements ParkingValidation {
 
-    private final ThreadLocal<InvoiceService> invoiceService = new ThreadLocal<>();
+    private final InvoiceService invoiceService;
 
     public VehicleAlreadyExistsInParkingLotValidation(InvoiceService invoiceService) {
-        this.invoiceService.set(invoiceService);
+        this.invoiceService = invoiceService;
     }
 
     @Override
     public void execute(Optional<Vehicle> vehicle) throws VehicleAlreadyExistsInParkingLotException, InvoiceDataException {
         if (vehicle.isPresent()) {
-            Optional<Invoice> invoice = invoiceService.get().getVehicleInParking(vehicle.get().getLicensePlate());
+            Optional<Invoice> invoice = invoiceService.getVehicleInParking(vehicle.get().getLicensePlate());
             if (invoice.isPresent()) {
                 throw new VehicleAlreadyExistsInParkingLotException();
             }

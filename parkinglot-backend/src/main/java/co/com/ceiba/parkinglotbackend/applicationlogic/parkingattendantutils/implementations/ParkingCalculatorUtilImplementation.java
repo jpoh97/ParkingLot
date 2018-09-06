@@ -11,15 +11,15 @@ import java.time.LocalDateTime;
 @Component
 public class ParkingCalculatorUtilImplementation implements ParkingCalculatorUtil {
 
-    private final ThreadLocal<ParkingCalendarUtil> parkingCalendarUtil = new ThreadLocal<>();
+    private final ParkingCalendarUtil parkingCalendarUtil;
 
     public ParkingCalculatorUtilImplementation(ParkingCalendarUtil parkingCalendarUtil) {
-        this.parkingCalendarUtil.set(parkingCalendarUtil);
+        this.parkingCalendarUtil = parkingCalendarUtil;
     }
 
     public Long calculatePrice(ParkingRates parkingRates, LocalDateTime entryDate) throws InvalidDatesException {
         Long finalPrice = 0L;
-        ParkingCalendarUtil.DifferenceTimes differenceTimes = parkingCalendarUtil.get().getDifferenceTime(entryDate, parkingCalendarUtil.get().getTodayDate());
+        ParkingCalendarUtil.DifferenceTimes differenceTimes = parkingCalendarUtil.getDifferenceTime(entryDate, parkingCalendarUtil.getTodayDate());
 
         if (differenceTimes.getDays().equals(0L) && differenceTimes.getHours().equals(0L)) {
             return finalPrice;

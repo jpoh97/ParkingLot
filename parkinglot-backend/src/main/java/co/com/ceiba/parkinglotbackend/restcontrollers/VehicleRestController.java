@@ -25,22 +25,22 @@ import java.util.Optional;
 @RequestMapping("vehicle")
 public class VehicleRestController {
 
-    private final ThreadLocal<ParkingAttendant> parkingAttendant = new ThreadLocal<>();
-    private final ThreadLocal<VehicleService> vehicleService = new ThreadLocal<>();
+    private final ParkingAttendant parkingAttendant;
+    private final VehicleService vehicleService;
 
     public VehicleRestController(VehicleService vehicleService, ParkingAttendant parkingAttendant) {
-        this.vehicleService.set(vehicleService);
-        this.parkingAttendant.set(parkingAttendant);
+        this.vehicleService = vehicleService;
+        this.parkingAttendant = parkingAttendant;
     }
 
     @GetMapping
     public Page<VehicleDTO> listVehicles(Pageable pageable) throws VehicleDataException {
-        return VehicleAdapter.vehicleListToDtoList(vehicleService.get().getAll(pageable));
+        return VehicleAdapter.vehicleListToDtoList(vehicleService.getAll(pageable));
     }
 
     @GetMapping("{licensePlate}")
     public ResponseEntity<VehicleDTO> getVehicle(@PathVariable String licensePlate) throws VehicleDoesNotExistException {
-        Optional<Vehicle> vehicle = vehicleService.get().get(Optional.ofNullable(licensePlate));
+        Optional<Vehicle> vehicle = vehicleService.get(Optional.ofNullable(licensePlate));
         VehicleDTO vehicleDTO = VehicleAdapter.vehicleToDto(vehicle.get());
         return new ResponseEntity<>(vehicleDTO, getHeaders(), HttpStatus.OK);
     }
@@ -48,14 +48,14 @@ public class VehicleRestController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<InvoiceDTO> vehicleCheckIn(@RequestBody VehicleDTO vehicleDTO) throws BaseException {
         Vehicle vehicle = VehicleAdapter.dtoToVehicle(vehicleDTO);
-        Invoice invoice = parkingAttendant.get().vehicleCheckIn(vehicle);
+        Invoice invoice = parkingAttendant.vehicleCheckIn(vehicle);
         InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDto(invoice);
         return new ResponseEntity<>(invoiceDTO, getHeaders(), HttpStatus.CREATED);
     }
 
     @PutMapping("{licensePlate}")
     public ResponseEntity<InvoiceDTO> vehicleCheckOut(@PathVariable String licensePlate) throws BaseException {
-        Invoice invoice = parkingAttendant.get().vehicleCheckOut(licensePlate);
+        Invoice invoice = parkingAttendant.vehicleCheckOut(licensePlate);
         InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDto(invoice);
         return new ResponseEntity<>(invoiceDTO, getHeaders(), HttpStatus.OK);
     }

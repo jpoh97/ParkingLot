@@ -19,26 +19,26 @@ import java.util.Optional;
 @Service
 public class VehicleServiceImplementation implements VehicleService {
 
-    private final ThreadLocal<VehicleRepository> vehicleRepository = new ThreadLocal<>();
-    private final ThreadLocal<VehicleTypeService> vehicleTypeService = new ThreadLocal<>();
+    private final VehicleRepository vehicleRepository;
+    private final VehicleTypeService vehicleTypeService;
 
     public VehicleServiceImplementation(VehicleRepository vehicleRepository, VehicleTypeService vehicleTypeService) {
-        this.vehicleRepository.set(vehicleRepository);
-        this.vehicleTypeService.set(vehicleTypeService);
+        this.vehicleRepository = vehicleRepository;
+        this.vehicleTypeService = vehicleTypeService;
     }
 
     public Page<Vehicle> getAll(Pageable pageable) throws VehicleDataException {
         if (!Optional.ofNullable(pageable).isPresent()) {
             throw new VehicleDataException();
         }
-        return vehicleRepository.get().findAll(pageable);
+        return vehicleRepository.findAll(pageable);
     }
 
     public Optional<Vehicle> get(Optional<String> licensePlate) throws VehicleDoesNotExistException {
         if (!licensePlate.isPresent()) {
             throw new VehicleDoesNotExistException();
         }
-        Optional<Vehicle> vehicle = vehicleRepository.get().findByLicensePlate(licensePlate.get().trim().toUpperCase());
+        Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(licensePlate.get().trim().toUpperCase());
         if (!vehicle.isPresent()) {
             throw new VehicleDoesNotExistException();
         }
@@ -50,16 +50,16 @@ public class VehicleServiceImplementation implements VehicleService {
             throw new VehicleDataException();
         }
         newVehicle.get().setLicensePlate(newVehicle.get().getLicensePlate().trim().toUpperCase());
-        Optional<Vehicle> vehicle = vehicleRepository.get().findByLicensePlate(newVehicle.get().getLicensePlate());
+        Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(newVehicle.get().getLicensePlate());
         if (vehicle.isPresent()) {
             if (newVehicle.get().getCylinderCapacity().isPresent() && vehicle.get().getCylinderCapacity().isPresent()
                     && !newVehicle.get().getCylinderCapacity().get().equals(vehicle.get().getCylinderCapacity().get())) {
                 vehicle.get().setCylinderCapacity(newVehicle.get().getCylinderCapacity());
-                vehicle = Optional.ofNullable(vehicleRepository.get().save(vehicle.get()));
+                vehicle = Optional.ofNullable(vehicleRepository.save(vehicle.get()));
             }
             return vehicle;
         }
-        vehicle = Optional.ofNullable(vehicleRepository.get().save(newVehicle.get()));
+        vehicle = Optional.ofNullable(vehicleRepository.save(newVehicle.get()));
         return vehicle;
     }
 
@@ -68,7 +68,7 @@ public class VehicleServiceImplementation implements VehicleService {
         if (null == licensePlate || null == vehicleTypeString) {
             throw new VehicleDataException();
         }
-        Optional<VehicleType> vehicleType = vehicleTypeService.get().getCurrentVehicleType(vehicleTypeString.trim().toUpperCase());
+        Optional<VehicleType> vehicleType = vehicleTypeService.getCurrentVehicleType(vehicleTypeString.trim().toUpperCase());
         if (!vehicleType.isPresent()) {
             throw new VehicleTypeDataException();
         }
