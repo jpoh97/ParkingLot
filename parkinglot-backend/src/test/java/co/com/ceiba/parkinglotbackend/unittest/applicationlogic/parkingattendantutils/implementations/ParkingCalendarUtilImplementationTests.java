@@ -1,4 +1,4 @@
-package co.com.ceiba.parkinglotbackend.unittest.applicationlogic.parkingattendantutils;
+package co.com.ceiba.parkinglotbackend.unittest.applicationlogic.parkingattendantutils.implementations;
 
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalendarUtil;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvalidDatesException;
@@ -64,5 +64,10 @@ public class ParkingCalendarUtilImplementationTests {
     @Test(expected = InvalidDatesException.class)
     public void getDifferenceTimeWithBadDatesTest() throws InvalidDatesException {
         sut.getDifferenceTime(monday, sunday);
+    }
+
+    @Test
+    public void getTodayDateTest() {
+        assertNotNull(sut.getTodayDate());
     }
 }

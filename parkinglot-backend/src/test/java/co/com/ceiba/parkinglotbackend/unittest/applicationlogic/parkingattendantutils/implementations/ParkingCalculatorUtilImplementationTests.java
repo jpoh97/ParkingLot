@@ -1,4 +1,4 @@
-package co.com.ceiba.parkinglotbackend.unittest.applicationlogic.parkingattendantutils;
+package co.com.ceiba.parkinglotbackend.unittest.applicationlogic.parkingattendantutils.implementations;
 
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalculatorUtil;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.implementations.ParkingCalendarUtilImplementation;
