@@ -7,7 +7,8 @@ import org.springframework.data.domain.Page;
 
 public final class VehicleAdapter {
 
-    private VehicleAdapter() {}
+    private VehicleAdapter() {
+    }
 
     public static VehicleDTO vehicleToDto(Vehicle vehicle) {
         ModelMapper modelMapper = new ModelMapper();

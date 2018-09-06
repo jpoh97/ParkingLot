@@ -9,6 +9,7 @@ public interface ParkingRatesRepository extends CrudRepository<ParkingRates, Int
 
     /**
      * Find all active parking rates
+     *
      * @param active active or not active
      * @return list of parking rates
      */

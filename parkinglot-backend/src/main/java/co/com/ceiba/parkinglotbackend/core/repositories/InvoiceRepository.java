@@ -13,14 +13,16 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer>, Pag
 
     /**
      * Find all invoices by a license plate
+     *
      * @param licensePlate license plate of vehicle
-     * @param pageable page to retrieve
+     * @param pageable     page to retrieve
      * @return requested page
      */
     Page<Invoice> findByVehicleLicensePlate(String licensePlate, Pageable pageable);
 
     /**
      * Find all invoices of vehicles in parking lot
+     *
      * @param pageable page to retrieve
      * @return requested page
      */
@@ -28,6 +30,7 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer>, Pag
 
     /**
      * Count all vehicles of a specific type in parking lot
+     *
      * @param vehicleTypeName vehicle type name
      * @return quantity of vehicles
      */
@@ -35,6 +38,7 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer>, Pag
 
     /**
      * Find all invoices of vehicles of a specific type in parking lot
+     *
      * @param vehicleTypeName vehicle type name
      * @return stream of invoices
      */
@@ -42,6 +46,7 @@ public interface InvoiceRepository extends CrudRepository<Invoice, Integer>, Pag
 
     /**
      * Find a vehicle in parking lot
+     *
      * @param licensePlate license plate of vehicle
      * @return requested vehicle
      */

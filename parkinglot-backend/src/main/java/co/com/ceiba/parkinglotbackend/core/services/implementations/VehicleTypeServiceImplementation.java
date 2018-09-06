@@ -18,7 +18,7 @@ public class VehicleTypeServiceImplementation implements VehicleTypeService {
     }
 
     public Optional<VehicleType> getCurrentVehicleType(String name) throws VehicleTypeDataException {
-        if(!Optional.ofNullable(name).isPresent()) {
+        if (!Optional.ofNullable(name).isPresent()) {
             throw new VehicleTypeDataException();
         }
         return vehicleTypeRepository.findByName(name);

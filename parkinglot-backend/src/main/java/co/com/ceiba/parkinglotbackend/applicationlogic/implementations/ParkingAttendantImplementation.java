@@ -1,5 +1,7 @@
 package co.com.ceiba.parkinglotbackend.applicationlogic.implementations;
 
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalculatorUtil;
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalendarUtil;
 import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.core.entities.ParkingRates;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
@@ -10,18 +12,16 @@ import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
 import co.com.ceiba.parkinglotbackend.exceptions.*;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
-import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalculatorUtil;
-import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.InvalidDayLicensePlateValidation;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.ParkingValidation;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class ParkingAttendantImplementation implements ParkingAttendant {
 
+    private ParkingCalendarUtil parkingCalendarUtil;
     private ParkingCalculatorUtil parkingCalculatorUtil;
 
     // Services
@@ -31,23 +31,22 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
 
     // Validations
     private List<ParkingValidation> parkingValidations;
-    private InvalidDayLicensePlateValidation invalidDayLicensePlateValidation;
 
     public ParkingAttendantImplementation(InvoiceService invoiceService,
                                           VehicleService vehicleService,
                                           ParkingRatesService parkingRatesService,
                                           List<ParkingValidation> parkingValidations,
-                                          InvalidDayLicensePlateValidation invalidDayLicensePlateValidation,
+                                          ParkingCalendarUtil parkingCalendarUtil,
                                           ParkingCalculatorUtil parkingCalculatorUtil) {
         this.invoiceService = invoiceService;
         this.vehicleService = vehicleService;
         this.parkingRatesService = parkingRatesService;
         this.parkingValidations = parkingValidations;
-        this.invalidDayLicensePlateValidation = invalidDayLicensePlateValidation;
         this.parkingCalculatorUtil = parkingCalculatorUtil;
+        this.parkingCalendarUtil = parkingCalendarUtil;
     }
 
-    public Invoice vehicleCheckIn(Vehicle vehicleResponse, LocalDateTime entryDate) throws BaseException {
+    public Invoice vehicleCheckIn(Vehicle vehicleResponse) throws BaseException {
         Optional<Vehicle> vehicle;
 
         if (null == vehicleResponse || isValidCheckInResponse(vehicleResponse)) {
@@ -57,7 +56,7 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
         vehicle = Optional.ofNullable(vehicleService.getNewVehicle(vehicleResponse.getLicensePlate(),
                 vehicleResponse.getVehicleType().getName(), vehicleResponse.getCylinderCapacity().get()));
 
-        validateVehicleEntry(vehicle, entryDate);
+        validateVehicleEntry(vehicle);
 
         vehicle = vehicleService.add(vehicle);
 
@@ -72,16 +71,13 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
             throw new VehicleDataException();
         }
 
-        Invoice invoice = new Invoice(vehicle.get(), entryDate, currentParkingRates);
+        Invoice invoice = new Invoice(vehicle.get(), parkingCalendarUtil.getTodayDate(), currentParkingRates);
         invoice = invoiceService.save(invoice);
 
         return invoice;
     }
 
-    private void validateVehicleEntry(Optional<Vehicle> vehicle, LocalDateTime entryDate) throws BaseException {
-        if (vehicle.isPresent()) {
-            invalidDayLicensePlateValidation.execute(vehicle.get().getLicensePlate(), entryDate);
-        }
+    private void validateVehicleEntry(Optional<Vehicle> vehicle) throws BaseException {
         for (ParkingValidation parkingValidation : parkingValidations) {
             parkingValidation.execute(vehicle);
         }
@@ -94,10 +90,9 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
                 || !vehicleResponse.getCylinderCapacity().isPresent();
     }
 
-    public Invoice vehicleCheckOut(String licensePlate, LocalDateTime departureDate) throws BaseException {
+    public Invoice vehicleCheckOut(String licensePlate) throws BaseException {
 
-        if (null == licensePlate
-                || null == departureDate) {
+        if (null == licensePlate) {
             throw new VehicleDataException();
         }
 
@@ -106,9 +101,9 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
             throw new VehicleDoesNotExistException();
         }
 
-        Long price = parkingCalculatorUtil.calculatePrice(invoice.get().getParkingRates(), invoice.get().getEntryDate(), departureDate);
+        Long price = parkingCalculatorUtil.calculatePrice(invoice.get().getParkingRates(), invoice.get().getEntryDate());
         invoice.get().setPrice(Optional.ofNullable(price));
-        invoice.get().setDepartureDate(Optional.of(departureDate));
+        invoice.get().setDepartureDate(Optional.of(parkingCalendarUtil.getTodayDate()));
         invoiceService.save(invoice.get());
 
         return invoice.get();

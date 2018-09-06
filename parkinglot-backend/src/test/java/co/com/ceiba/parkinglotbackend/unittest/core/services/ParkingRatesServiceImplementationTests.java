@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ParkingRatesServiceTests {
+public class ParkingRatesServiceImplementationTests {
 
     @Mock
     private ParkingRatesRepository mockParkingRatesRepository;
@@ -34,16 +34,20 @@ public class ParkingRatesServiceTests {
     private ParkingRates parkingRates;
     private ParkingRatesTestDataBuilder parkingRatesTestDataBuilder;
 
+    public ParkingRatesServiceImplementationTests() {
+        parkingRatesTestDataBuilder = new ParkingRatesTestDataBuilder();
+    }
+
     @Before
     public void setUp() {
-        parkingRatesTestDataBuilder = new ParkingRatesTestDataBuilder();
         parkingRates = parkingRatesTestDataBuilder.build();
+        sut = new ParkingRatesServiceImplementation(mockParkingRatesRepository);
     }
 
     @After
     public void tearDown() {
+        sut = null;
         parkingRates = null;
-        parkingRatesTestDataBuilder = null;
     }
 
     @Test
@@ -53,7 +57,6 @@ public class ParkingRatesServiceTests {
         when(mockParkingRatesRepository.findAll()).thenReturn(parkingRatesList);
 
         // act
-        sut = new ParkingRatesServiceImplementation(mockParkingRatesRepository);
         Stream<ParkingRates> parkingRatesStream = sut.getAll();
 
         // assert
@@ -68,7 +71,6 @@ public class ParkingRatesServiceTests {
         when(mockParkingRatesRepository.findAllByActive(true)).thenReturn(parkingRatesList);
 
         // act
-        sut = new ParkingRatesServiceImplementation(mockParkingRatesRepository);
         List<ParkingRates> parkingRatesResponse = sut.getCurrentParkingRates(true);
 
         // assert
@@ -78,7 +80,6 @@ public class ParkingRatesServiceTests {
 
     @Test(expected = ParkingRatesDataException.class)
     public void getCurrentParkingRatesWithoutActiveParamTest() throws ParkingRatesDataException {
-        sut = new ParkingRatesServiceImplementation(mockParkingRatesRepository);
         sut.getCurrentParkingRates(null);
     }
 
@@ -89,11 +90,9 @@ public class ParkingRatesServiceTests {
 
         VehicleType vehicleType = getVehicleType(1);
 
-        sut = new ParkingRatesServiceImplementation(mockParkingRatesRepository);
         parkingRates = sut.getCurrentParkingRatesFor(vehicleType,
                 new VehicleTestDataBuilder().build().getCylinderCapacity());
 
-        // assert
         assertNotNull("There is not parking rates", parkingRates);
     }
 
@@ -104,17 +103,14 @@ public class ParkingRatesServiceTests {
 
         VehicleType vehicleType = getVehicleType(2);
 
-        sut = new ParkingRatesServiceImplementation(mockParkingRatesRepository);
         parkingRates = sut.getCurrentParkingRatesFor(vehicleType,
                 new VehicleTestDataBuilder().build().getCylinderCapacity());
 
-        // assert
         assertNull("There is at least one parking rates", parkingRates);
     }
 
     @Test(expected = ParkingRatesDataException.class)
     public void getCurrentParkingRatesForWithoutParamsTest() throws ParkingRatesDataException {
-        sut = new ParkingRatesServiceImplementation(mockParkingRatesRepository);
         sut.getCurrentParkingRatesFor(null, Optional.empty());
     }
 

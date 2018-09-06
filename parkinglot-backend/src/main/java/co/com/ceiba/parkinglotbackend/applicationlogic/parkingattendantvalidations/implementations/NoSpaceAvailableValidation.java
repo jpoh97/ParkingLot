@@ -30,7 +30,7 @@ public class NoSpaceAvailableValidation implements ParkingValidation {
                     vehicle.get().getVehicleType().getName());
 
             if (!vehicleType.isPresent()
-                    || vehicleType.get().getTotalPlaces().intValue() <= spacesInUse.longValue()) {
+                    || vehicleType.get().getTotalPlaces() <= spacesInUse) {
                 throw new NoSpaceAvailableException();
             }
         }

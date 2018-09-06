@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 public class VehicleType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,11 +19,12 @@ public class VehicleType {
     private Integer totalPlaces;
     @NotNull
     private LocalDateTime creationDate;
-    @OneToMany(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotNull
     private List<ParkingRates> parkingRates;
 
-    public VehicleType() {}
+    public VehicleType() {
+    }
 
     /**
      * Constructor for unit test

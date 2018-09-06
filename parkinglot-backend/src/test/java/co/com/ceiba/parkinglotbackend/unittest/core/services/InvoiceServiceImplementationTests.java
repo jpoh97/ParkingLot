@@ -29,7 +29,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class InvoiceServiceTests {
+public class InvoiceServiceImplementationTests {
 
     @Mock
     private InvoiceRepository mockInvoiceRepository;
@@ -38,31 +38,31 @@ public class InvoiceServiceTests {
     private Invoice invoice;
     private InvoiceTestDataBuilder invoiceTestDataBuilder;
 
+    public InvoiceServiceImplementationTests() {
+        invoiceTestDataBuilder = new InvoiceTestDataBuilder();
+    }
+
     @Before
     public void setUp() {
-        invoiceTestDataBuilder = new InvoiceTestDataBuilder();
         invoice = invoiceTestDataBuilder.build();
+        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
     }
 
     @After
     public void tearDown() {
+        sut = null;
         invoice = null;
-        invoiceTestDataBuilder = null;
     }
 
     @Test
     public void saveCorrectInvoice() throws InvoiceDataException {
         when(mockInvoiceRepository.save(any())).thenReturn(invoice);
-
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         invoice = sut.save(invoice);
-
         assertNotNull("Cannot save the invoice", invoice);
     }
 
     @Test(expected = InvoiceDataException.class)
     public void saveWithoutInvoice() throws InvoiceDataException {
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         invoice = sut.save(null);
     }
 
@@ -74,7 +74,6 @@ public class InvoiceServiceTests {
 
         // act
         when(mockInvoiceRepository.findAll(PageRequest.of(1, 2))).thenReturn(invoicePageParam);
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         Page<Invoice> invoicePage = sut.getAll(PageRequest.of(1, 2));
 
         // assert
@@ -84,7 +83,6 @@ public class InvoiceServiceTests {
 
     @Test(expected = InvoiceDataException.class)
     public void getAllWithoutPageableTest() throws InvoiceDataException {
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         sut.getAll(null);
     }
 
@@ -96,7 +94,6 @@ public class InvoiceServiceTests {
 
         // act
         when(mockInvoiceRepository.findAllByDepartureDateIsNull(PageRequest.of(1, 2))).thenReturn(invoicePageParam);
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         Page<Invoice> invoicePage = sut.getAllInParking(PageRequest.of(1, 2));
 
         // assert
@@ -106,7 +103,6 @@ public class InvoiceServiceTests {
 
     @Test(expected = InvoiceDataException.class)
     public void getAllInParkingWithoutPageableTest() throws InvoiceDataException {
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         sut.getAllInParking(null);
     }
 
@@ -117,7 +113,6 @@ public class InvoiceServiceTests {
         when(mockInvoiceRepository.findAllByVehicleVehicleTypeNameAndDepartureDateIsNull(any())).thenReturn(invoices.stream());
 
         // act
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         Stream<Invoice> invoiceStream = sut.getParkingSpacesInUseForVehicleType(invoice.getVehicle().getVehicleType().getName());
 
         // assert
@@ -127,7 +122,6 @@ public class InvoiceServiceTests {
 
     @Test(expected = InvoiceDataException.class)
     public void getParkingSpacesInUseForVehicleTypeWithoutVehicleTypeTest() throws InvoiceDataException {
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         sut.getParkingSpacesInUseForVehicleType(null);
     }
 
@@ -135,7 +129,6 @@ public class InvoiceServiceTests {
     public void getParkingSpacesCountInUseForVehicleTypeTest() throws InvoiceDataException {
         Long countMock = 2L;
         when(mockInvoiceRepository.countByVehicleVehicleTypeNameAndDepartureDateIsNull(any())).thenReturn(countMock);
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
 
         Long countReturn = sut.getParkingSpacesCountInUseForVehicleType(invoice.getVehicle().getVehicleType().getName());
         assertEquals("Count not equals", countMock, countReturn);
@@ -143,7 +136,6 @@ public class InvoiceServiceTests {
 
     @Test(expected = InvoiceDataException.class)
     public void getParkingSpacesCountInUseForVehicleTypeWithoutVehicleTypeNameTest() throws InvoiceDataException {
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         sut.getParkingSpacesCountInUseForVehicleType(null);
     }
 
@@ -151,7 +143,6 @@ public class InvoiceServiceTests {
     public void getVehicleInParkingTest() throws InvoiceDataException {
         // arrange
         when(mockInvoiceRepository.findByVehicleLicensePlateAndDepartureDateIsNull(any())).thenReturn(Optional.ofNullable(invoice));
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
 
         // act
         Optional<Invoice> invoiceReturn = sut.getVehicleInParking(invoice.getVehicle().getLicensePlate());
@@ -166,7 +157,6 @@ public class InvoiceServiceTests {
 
     @Test(expected = InvoiceDataException.class)
     public void getVehicleInParkingWithoutLicensePlateTest() throws InvoiceDataException {
-        sut = new InvoiceServiceImplementation(mockInvoiceRepository);
         sut.getVehicleInParking(null);
     }
 

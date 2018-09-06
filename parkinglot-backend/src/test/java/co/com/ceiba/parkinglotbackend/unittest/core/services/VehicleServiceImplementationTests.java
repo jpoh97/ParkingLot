@@ -8,7 +8,6 @@ import co.com.ceiba.parkinglotbackend.core.services.implementations.VehicleServi
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDataException;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleDoesNotExistException;
-import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleTypeDataException;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTestDataBuilder;
 import org.junit.After;
 import org.junit.Before;
@@ -31,7 +30,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class VehicleServiceTests {
+public class VehicleServiceImplementationTests {
 
     @Mock
     private VehicleRepository mockVehicleRepository;
@@ -43,16 +42,20 @@ public class VehicleServiceTests {
     private Vehicle vehicle;
     private VehicleTestDataBuilder vehicleTestDataBuilder;
 
+    public VehicleServiceImplementationTests() {
+        vehicleTestDataBuilder = new VehicleTestDataBuilder();
+    }
+
     @Before
     public void setUp() {
-        vehicleTestDataBuilder = new VehicleTestDataBuilder();
         vehicle = vehicleTestDataBuilder.build();
+        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
     }
 
     @After
     public void tearDown() {
+        sut = null;
         vehicle = null;
-        vehicleTestDataBuilder = null;
     }
 
     @Test
@@ -63,7 +66,6 @@ public class VehicleServiceTests {
 
         // act
         when(mockVehicleRepository.findAll(PageRequest.of(1, 2))).thenReturn(vehiclePageParam);
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         Page<Vehicle> vehiclePage = sut.getAll(PageRequest.of(1, 2));
 
         // assert
@@ -73,14 +75,12 @@ public class VehicleServiceTests {
 
     @Test(expected = VehicleDataException.class)
     public void getAllWithoutPageableTest() throws VehicleDataException {
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         sut.getAll(null);
     }
 
     @Test
     public void getCorrectVehicle() throws VehicleDoesNotExistException {
         when(mockVehicleRepository.findByLicensePlate(anyString())).thenReturn(Optional.ofNullable(vehicle));
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
 
         Optional<Vehicle> vehicleResponse = sut.get(Optional.ofNullable(vehicle.getLicensePlate()));
         assertTrue("Get func returned null", vehicleResponse.isPresent());
@@ -89,7 +89,6 @@ public class VehicleServiceTests {
 
     @Test(expected = VehicleDoesNotExistException.class)
     public void getWithoutLicensePlate() throws VehicleDoesNotExistException {
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         sut.get(Optional.empty());
     }
 
@@ -97,7 +96,6 @@ public class VehicleServiceTests {
     @Test(expected = VehicleDoesNotExistException.class)
     public void getNonexistentVehicle() throws VehicleDoesNotExistException {
         when(mockVehicleRepository.findByLicensePlate(anyString())).thenReturn(Optional.empty());
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         sut.get(Optional.ofNullable(vehicle.getLicensePlate()));
     }
 
@@ -105,7 +103,6 @@ public class VehicleServiceTests {
     public void addNewVehicle() throws VehicleDataException {
         when(mockVehicleRepository.findByLicensePlate(anyString())).thenReturn(Optional.empty());
         when(mockVehicleRepository.save(any())).thenReturn(vehicle);
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
 
         Optional<Vehicle> newVehicle = sut.add(Optional.ofNullable(vehicle));
         assertTrue("Vehicle response is null", newVehicle.isPresent());
@@ -118,7 +115,6 @@ public class VehicleServiceTests {
         vehicle = vehicleTestDataBuilder.withLicensePlate(vehicle.getLicensePlate().toUpperCase()).build();
         when(mockVehicleRepository.findByLicensePlate(anyString())).thenReturn(Optional.ofNullable(vehicle));
         when(mockVehicleRepository.save(any())).thenReturn(vehicle);
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         vehicle = vehicleTestDataBuilder.withCylinderCapacity(100).build();
 
         // act
@@ -131,14 +127,12 @@ public class VehicleServiceTests {
 
     @Test(expected = VehicleDataException.class)
     public void addWithoutParam() throws VehicleDataException {
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         sut.add(Optional.empty());
     }
 
     @Test
     public void getNewVehicleTest() throws BaseException {
         when(mockVehicleTypeService.getCurrentVehicleType(anyString())).thenReturn(Optional.ofNullable(vehicle.getVehicleType()));
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
 
         Vehicle newVehicle = sut.getNewVehicle(vehicle.getLicensePlate(), vehicle.getVehicleType().getName(),
                 vehicle.getCylinderCapacity().get());
@@ -151,7 +145,6 @@ public class VehicleServiceTests {
 
     @Test(expected = VehicleDataException.class)
     public void getNewVehicleWithoutParams() throws BaseException {
-        sut = new VehicleServiceImplementation(mockVehicleRepository, mockVehicleTypeService);
         sut.getNewVehicle(null, null, null);
     }
 

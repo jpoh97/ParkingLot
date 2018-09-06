@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class VehicleTypeServiceTests {
+public class VehicleTypeServiceImplementationTests {
 
     @Mock
     private VehicleTypeRepository mockVehicleTypeRepository;
@@ -28,34 +28,36 @@ public class VehicleTypeServiceTests {
     private VehicleType vehicleType;
     private VehicleTypeTestDataBuilder vehicleTypeTestDataBuilder;
 
+    public VehicleTypeServiceImplementationTests() {
+        vehicleTypeTestDataBuilder = new VehicleTypeTestDataBuilder();
+    }
+
     @Before
     public void setUp() {
-        vehicleTypeTestDataBuilder = new VehicleTypeTestDataBuilder();
         vehicleType = vehicleTypeTestDataBuilder.build();
+        sut = new VehicleTypeServiceImplementation(mockVehicleTypeRepository);
     }
 
     @After
     public void tearDown() {
+        sut = null;
         vehicleType = null;
-        vehicleTypeTestDataBuilder = null;
     }
 
     @Test
     public void getCurrentVehicleTypeTest() throws VehicleTypeDataException {
         when(mockVehicleTypeRepository.findByName(anyString())).thenReturn(Optional.ofNullable(vehicleType));
-        sut = new VehicleTypeServiceImplementation(mockVehicleTypeRepository);
         Optional<VehicleType> vehicleTypeResponse = sut.getCurrentVehicleType(vehicleType.getName());
         validateVehicleTypes(vehicleType, vehicleTypeResponse);
     }
 
     @Test(expected = VehicleTypeDataException.class)
     public void getCurrentVehicleTypeWithoutNameParam() throws VehicleTypeDataException {
-        sut = new VehicleTypeServiceImplementation(mockVehicleTypeRepository);
         sut.getCurrentVehicleType(null);
     }
 
     private void validateVehicleTypes(VehicleType vehicleType, Optional<VehicleType> vehicleTypeResponse) {
-        assertTrue("Vehicle type is null",  vehicleTypeResponse.isPresent());
+        assertTrue("Vehicle type is null", vehicleTypeResponse.isPresent());
         assertEquals("Names not equals", vehicleType.getName(), vehicleTypeResponse.get().getName());
         assertEquals("Dates not equals", vehicleType.getCreationDate(), vehicleTypeResponse.get().getCreationDate());
         assertEquals("Total space not equals", vehicleType.getTotalPlaces(), vehicleTypeResponse.get().getTotalPlaces());

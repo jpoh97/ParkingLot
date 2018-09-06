@@ -12,6 +12,7 @@ public interface VehicleRepository extends CrudRepository<Vehicle, Integer>, Pag
 
     /**
      * Find all vehicles
+     *
      * @param pageable page to retrieve
      * @return requested page
      */
@@ -19,6 +20,7 @@ public interface VehicleRepository extends CrudRepository<Vehicle, Integer>, Pag
 
     /**
      * Find a vehicle by license plate
+     *
      * @param licensePlate vehicle license plate
      * @return requested vehicle
      */

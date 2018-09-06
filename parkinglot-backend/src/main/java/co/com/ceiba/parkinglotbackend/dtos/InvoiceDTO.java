@@ -10,7 +10,8 @@ public class InvoiceDTO {
     private Optional<Long> price;
     private String vehicleTypeName;
 
-    public InvoiceDTO() {}
+    public InvoiceDTO() {
+    }
 
     public InvoiceDTO(String vehicleLicensePlate, LocalDateTime entryDate, Optional<LocalDateTime> departureDate,
                       Optional<Long> price, String vehicleTypeName) {
@@ -60,5 +61,4 @@ public class InvoiceDTO {
     public void setVehicleTypeName(String vehicleTypeName) {
         this.vehicleTypeName = vehicleTypeName;
     }
-
 }

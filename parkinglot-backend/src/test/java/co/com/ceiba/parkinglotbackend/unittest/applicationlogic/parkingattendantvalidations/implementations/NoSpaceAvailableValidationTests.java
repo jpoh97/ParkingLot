@@ -1,5 +1,6 @@
 package co.com.ceiba.parkinglotbackend.unittest.applicationlogic.parkingattendantvalidations.implementations;
 
+import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.ParkingValidation;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.implementations.NoSpaceAvailableValidation;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
@@ -24,6 +25,8 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class NoSpaceAvailableValidationTests {
 
+    private ParkingValidation sut;
+
     @Mock
     private InvoiceService mockInvoiceService;
 
@@ -31,29 +34,26 @@ public class NoSpaceAvailableValidationTests {
     private VehicleTypeService mockVehicleTypeService;
 
     // Objects
-    private NoSpaceAvailableValidation sut;
     private Long spacesInUse;
     private VehicleType vehicleType;
-    private VehicleTypeTestDataBuilder vehicleTypeTestDataBuilder;
     private Vehicle vehicle;
-    private VehicleTestDataBuilder vehicleTestDataBuilder;
+
+    public NoSpaceAvailableValidationTests() {
+        VehicleTypeTestDataBuilder vehicleTypeTestDataBuilder = new VehicleTypeTestDataBuilder();
+        VehicleTestDataBuilder vehicleTestDataBuilder = new VehicleTestDataBuilder();
+        vehicle = vehicleTestDataBuilder.build();
+        vehicleType = vehicleTypeTestDataBuilder.build();
+    }
 
     @Before
     public void setUp() {
-        vehicleTypeTestDataBuilder = new VehicleTypeTestDataBuilder();
-        vehicleTestDataBuilder = new VehicleTestDataBuilder();
-        vehicleType = vehicleTypeTestDataBuilder.build();
-        vehicle = vehicleTestDataBuilder.build();
         spacesInUse = 7L;
+        sut = new NoSpaceAvailableValidation(mockInvoiceService, mockVehicleTypeService);
     }
 
     @After
     public void tearDown() {
-        vehicleType = null;
-        vehicleTypeTestDataBuilder = null;
-        vehicle = null;
-        vehicleTestDataBuilder= null;
-        spacesInUse = null;
+        sut = null;
     }
 
     @Test
@@ -61,7 +61,6 @@ public class NoSpaceAvailableValidationTests {
         when(mockInvoiceService.getParkingSpacesCountInUseForVehicleType(any())).thenReturn(spacesInUse);
         when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.ofNullable(vehicleType));
 
-        sut = new NoSpaceAvailableValidation(mockInvoiceService, mockVehicleTypeService);
         sut.execute(Optional.ofNullable(vehicle));
     }
 
@@ -71,7 +70,6 @@ public class NoSpaceAvailableValidationTests {
         when(mockInvoiceService.getParkingSpacesCountInUseForVehicleType(any())).thenReturn(spacesInUse);
         when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.ofNullable(vehicleType));
 
-        sut = new NoSpaceAvailableValidation(mockInvoiceService, mockVehicleTypeService);
         sut.execute(Optional.ofNullable(vehicle));
     }
 
@@ -80,7 +78,6 @@ public class NoSpaceAvailableValidationTests {
         when(mockInvoiceService.getParkingSpacesCountInUseForVehicleType(any())).thenReturn(spacesInUse);
         when(mockVehicleTypeService.getCurrentVehicleType(any())).thenReturn(Optional.empty());
 
-        sut = new NoSpaceAvailableValidation(mockInvoiceService, mockVehicleTypeService);
         sut.execute(Optional.ofNullable(vehicle));
     }
 }

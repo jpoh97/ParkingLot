@@ -7,7 +7,8 @@ import org.springframework.data.domain.Page;
 
 public final class InvoiceAdapter {
 
-    private InvoiceAdapter() {}
+    private InvoiceAdapter() {
+    }
 
     public static InvoiceDTO invoiceToDto(Invoice invoice) {
         ModelMapper modelMapper = new ModelMapper();

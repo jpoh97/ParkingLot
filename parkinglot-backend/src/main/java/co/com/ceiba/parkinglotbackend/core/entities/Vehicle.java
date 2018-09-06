@@ -7,6 +7,7 @@ import java.util.Optional;
 
 @Entity
 public class Vehicle {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,7 +28,8 @@ public class Vehicle {
         this.creationDate = creationDate;
     }
 
-    public Vehicle() {}
+    public Vehicle() {
+    }
 
     public Integer getId() {
         return id;

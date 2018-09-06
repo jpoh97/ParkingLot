@@ -31,19 +31,25 @@ public class VehicleRestControllerTests {
 
     private VehicleRestController sut;
 
-    @Autowired private ParkingAttendant parkingAttendant;
-    @Autowired private VehicleService vehicleService;
-    @Autowired private VehicleTypeService vehicleTypeService;
+    @Autowired
+    private ParkingAttendant parkingAttendant;
+    @Autowired
+    private VehicleService vehicleService;
+    @Autowired
+    private VehicleTypeService vehicleTypeService;
 
     private Vehicle vehicle;
     private VehicleTestDataBuilder vehicleTestDataBuilder;
     private VehicleDTO vehicleDTO;
     private VehicleDTOTestDataBuilder vehicleDTOTestDataBuilder;
 
-    @Before
-    public void setUp() {
+    public VehicleRestControllerTests() {
         vehicleTestDataBuilder = new VehicleTestDataBuilder();
         vehicleDTOTestDataBuilder = new VehicleDTOTestDataBuilder();
+    }
+
+    @Before
+    public void setUp() {
         vehicle = vehicleTestDataBuilder.build();
         vehicleDTO = vehicleDTOTestDataBuilder.build();
         sut = new VehicleRestController(vehicleService, parkingAttendant);
@@ -53,7 +59,6 @@ public class VehicleRestControllerTests {
     public void tearDown() {
         sut = null;
         vehicle = null;
-        vehicleTestDataBuilder = null;
     }
 
     @Test

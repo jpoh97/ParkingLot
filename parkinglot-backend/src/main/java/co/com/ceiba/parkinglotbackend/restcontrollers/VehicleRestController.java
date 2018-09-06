@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -49,14 +48,14 @@ public class VehicleRestController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<InvoiceDTO> vehicleCheckIn(@RequestBody VehicleDTO vehicleDTO) throws BaseException {
         Vehicle vehicle = VehicleAdapter.dtoToVehicle(vehicleDTO);
-        Invoice invoice = parkingAttendant.vehicleCheckIn(vehicle, LocalDateTime.now());
+        Invoice invoice = parkingAttendant.vehicleCheckIn(vehicle);
         InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDto(invoice);
         return new ResponseEntity<>(invoiceDTO, getHeaders(), HttpStatus.CREATED);
     }
 
     @PutMapping("{licensePlate}")
     public ResponseEntity<InvoiceDTO> vehicleCheckOut(@PathVariable String licensePlate) throws BaseException {
-        Invoice invoice = parkingAttendant.vehicleCheckOut(licensePlate, LocalDateTime.now());
+        Invoice invoice = parkingAttendant.vehicleCheckOut(licensePlate);
         InvoiceDTO invoiceDTO = InvoiceAdapter.invoiceToDto(invoice);
         return new ResponseEntity<>(invoiceDTO, getHeaders(), HttpStatus.OK);
     }

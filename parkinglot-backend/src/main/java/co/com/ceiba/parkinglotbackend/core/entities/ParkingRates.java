@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 public class ParkingRates {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -16,13 +17,14 @@ public class ParkingRates {
     private Long extraPrice;
     @NotNull
     private LocalDate creationDate;
-    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotNull
     private VehicleType vehicleType;
     @NotNull
     private Boolean active;
 
-    public ParkingRates() {}
+    public ParkingRates() {
+    }
 
     /**
      * Constructor for unit test

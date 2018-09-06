@@ -5,6 +5,12 @@ public enum VehicleTypeEnum {
     MOTORCYCLE("MOTORCYCLE");
 
     private final String name;
-    VehicleTypeEnum(String name) { this.name = name; }
-    public String getValue() { return name; }
+
+    VehicleTypeEnum(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return name;
+    }
 }

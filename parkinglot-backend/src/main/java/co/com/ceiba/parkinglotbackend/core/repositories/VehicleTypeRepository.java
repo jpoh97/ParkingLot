@@ -9,6 +9,7 @@ public interface VehicleTypeRepository extends CrudRepository<VehicleType, Integ
 
     /**
      * Get a vehicle type by name
+     *
      * @param name vehicle type name
      * @return requested vehicle type
      */

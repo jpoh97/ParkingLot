@@ -4,7 +4,6 @@ import co.com.ceiba.parkinglotbackend.applicationlogic.ParkingAttendant;
 import co.com.ceiba.parkinglotbackend.applicationlogic.implementations.ParkingAttendantImplementation;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalculatorUtil;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantutils.ParkingCalendarUtil;
-import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.InvalidDayLicensePlateValidation;
 import co.com.ceiba.parkinglotbackend.applicationlogic.parkingattendantvalidations.ParkingValidation;
 import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
@@ -20,6 +19,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,40 +29,48 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Transactional
-public class ParkingAttendantTests {
+public class ParkingAttendantImplementationTests {
 
     private ParkingAttendant sut;
 
-    @Autowired private ParkingCalculatorUtil parkingCalculatorUtil;
+    @Mock
+    private ParkingCalendarUtil mockParkingCalendarUtil;
+
+    @Autowired
+    private ParkingCalculatorUtil parkingCalculatorUtil;
 
     // Services
-    @Autowired private InvoiceService invoiceService;
-    @Autowired private VehicleService vehicleService;
-    @Autowired private ParkingRatesService parkingRatesService;
+    @Autowired
+    private InvoiceService invoiceService;
+    @Autowired
+    private VehicleService vehicleService;
+    @Autowired
+    private ParkingRatesService parkingRatesService;
 
     // Validations
-    @Autowired private List<ParkingValidation> parkingValidations;
-    @Autowired private InvalidDayLicensePlateValidation invalidDayLicensePlateValidation;
+    @Autowired
+    private List<ParkingValidation> parkingValidations;
 
     // other objects
     private Invoice invoice;
     private Vehicle vehicle;
     private ParkingCalendarTestDataBuilder parkingCalendarTestDataBuilder;
 
-    public ParkingAttendantTests() {
+    public ParkingAttendantImplementationTests() {
         VehicleTestDataBuilder vehicleTestDataBuilder = new VehicleTestDataBuilder();
-        vehicle = vehicleTestDataBuilder.build();
         parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();
+        vehicle = vehicleTestDataBuilder.build();
     }
 
     @Before
     public void setUp() {
         sut = new ParkingAttendantImplementation(invoiceService, vehicleService, parkingRatesService,
-                parkingValidations, invalidDayLicensePlateValidation, parkingCalculatorUtil);
+                parkingValidations, mockParkingCalendarUtil, parkingCalculatorUtil);
     }
 
     @After
@@ -73,7 +81,9 @@ public class ParkingAttendantTests {
     @Test
     public void vehicleCheckInTest() throws BaseException {
         LocalDateTime entryDate = parkingCalendarTestDataBuilder.withDay(11).build();
-        invoice = sut.vehicleCheckIn(vehicle, entryDate);
+        when(mockParkingCalendarUtil.getTodayDate()).thenReturn(entryDate);
+        // assign sut?
+        invoice = sut.vehicleCheckIn(vehicle);
         assertNotNull("Invoice returned was null", invoice);
         assertEquals("License plates are not equals", invoice.getVehicle().getLicensePlate(),
                 vehicle.getLicensePlate().toUpperCase());
@@ -84,15 +94,17 @@ public class ParkingAttendantTests {
 
     @Test(expected = VehicleDataException.class)
     public void vehicleCheckInWrongParams() throws BaseException {
-        sut.vehicleCheckIn(null, null);
+        sut.vehicleCheckIn(null);
     }
 
     @Test
     public void vehicleCheckOutTest() throws BaseException {
         LocalDateTime entryDate = parkingCalendarTestDataBuilder.withDay(11).build();
         LocalDateTime departureDate = parkingCalendarTestDataBuilder.withDay(11).build();
-        invoice = sut.vehicleCheckIn(vehicle, entryDate);
-        Invoice exitInvoice = sut.vehicleCheckOut(vehicle.getLicensePlate(), departureDate);
+        when(mockParkingCalendarUtil.getTodayDate()).thenReturn(entryDate);
+        invoice = sut.vehicleCheckIn(vehicle);
+        when(mockParkingCalendarUtil.getTodayDate()).thenReturn(departureDate);
+        Invoice exitInvoice = sut.vehicleCheckOut(vehicle.getLicensePlate());
 
         assertNotNull("Invoice generated in check out process is null", exitInvoice);
         assertEquals("License plates are not equals", invoice.getVehicle().getLicensePlate(),
@@ -104,12 +116,11 @@ public class ParkingAttendantTests {
 
     @Test(expected = VehicleDataException.class)
     public void vehicleCheckOutWrongParams() throws BaseException {
-        sut.vehicleCheckOut(null, null);
+        sut.vehicleCheckOut(null);
     }
 
     @Test(expected = VehicleDoesNotExistException.class)
     public void vehicleCheckOutWithoutCheckIn() throws BaseException {
-        LocalDateTime departureDate = parkingCalendarTestDataBuilder.withDay(11).build();
-        sut.vehicleCheckOut(vehicle.getLicensePlate(), departureDate);
+        sut.vehicleCheckOut(vehicle.getLicensePlate());
     }
 }

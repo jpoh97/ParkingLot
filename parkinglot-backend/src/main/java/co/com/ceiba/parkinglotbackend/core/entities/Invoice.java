@@ -7,6 +7,7 @@ import java.util.Optional;
 
 @Entity
 public class Invoice {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,7 +28,8 @@ public class Invoice {
         this.parkingRates = parkingRates;
     }
 
-    public Invoice() {}
+    public Invoice() {
+    }
 
     public Integer getId() {
         return id;

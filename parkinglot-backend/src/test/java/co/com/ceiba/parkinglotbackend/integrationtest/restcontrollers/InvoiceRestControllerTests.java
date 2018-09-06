@@ -20,8 +20,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,16 +29,22 @@ public class InvoiceRestControllerTests {
 
     private InvoiceRestController sut;
 
-    @Autowired private InvoiceService invoiceService;
-    @Autowired private VehicleTypeService vehicleTypeService;
-    @Autowired private ParkingAttendant parkingAttendant;
+    @Autowired
+    private InvoiceService invoiceService;
+    @Autowired
+    private VehicleTypeService vehicleTypeService;
+    @Autowired
+    private ParkingAttendant parkingAttendant;
 
     private Invoice invoice;
     private InvoiceTestDataBuilder invoiceTestDataBuilder;
 
+    public InvoiceRestControllerTests() {
+        invoiceTestDataBuilder = new InvoiceTestDataBuilder();
+    }
+
     @Before
     public void setUp() {
-        invoiceTestDataBuilder = new InvoiceTestDataBuilder();
         invoice = invoiceTestDataBuilder.build();
         sut = new InvoiceRestController(invoiceService);
     }
@@ -49,7 +53,6 @@ public class InvoiceRestControllerTests {
     public void tearDown() {
         sut = null;
         invoice = null;
-        invoiceTestDataBuilder = null;
     }
 
     @Test
@@ -66,7 +69,7 @@ public class InvoiceRestControllerTests {
     @Test
     public void listVehiclesInParkingTest() throws BaseException {
         invoice.getVehicle().setVehicleType(vehicleTypeService.getCurrentVehicleType(invoice.getVehicle().getVehicleType().getName()).get());
-        parkingAttendant.vehicleCheckIn(invoice.getVehicle(), LocalDateTime.now());
+        parkingAttendant.vehicleCheckIn(invoice.getVehicle());
         Page<InvoiceDTO> invoiceDTOPage = sut.listVehiclesInParking(PageRequest.of(1, 2));
         assertNotNull("Invoice page retrieved is a null object", invoiceDTOPage);
         assertEquals("Invoice page size is different to expected", 1, invoiceDTOPage.getTotalElements());

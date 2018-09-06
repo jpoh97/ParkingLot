@@ -31,7 +31,7 @@ public class ParkingRatesServiceImplementation implements ParkingRatesService {
     }
 
     public List<ParkingRates> getCurrentParkingRates(Boolean active) throws ParkingRatesDataException {
-        if(!Optional.ofNullable(active).isPresent()) {
+        if (!Optional.ofNullable(active).isPresent()) {
             throw new ParkingRatesDataException();
         }
         return parkingRatesRepository.findAllByActive(active);
@@ -50,7 +50,7 @@ public class ParkingRatesServiceImplementation implements ParkingRatesService {
     }
 
     private Long getExtraPriceForMotorcycle(VehicleType vehicleType, Optional<Integer> cylinderCapacity) throws ParkingRatesDataException {
-        if(!Optional.ofNullable(vehicleType).isPresent() || !Optional.ofNullable(vehicleType.getName()).isPresent()
+        if (!Optional.ofNullable(vehicleType).isPresent() || !Optional.ofNullable(vehicleType.getName()).isPresent()
                 || !cylinderCapacity.isPresent()) {
             throw new ParkingRatesDataException();
         }

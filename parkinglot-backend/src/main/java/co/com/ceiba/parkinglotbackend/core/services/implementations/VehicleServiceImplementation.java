@@ -28,7 +28,7 @@ public class VehicleServiceImplementation implements VehicleService {
     }
 
     public Page<Vehicle> getAll(Pageable pageable) throws VehicleDataException {
-        if(!Optional.ofNullable(pageable).isPresent()) {
+        if (!Optional.ofNullable(pageable).isPresent()) {
             throw new VehicleDataException();
         }
         return vehicleRepository.findAll(pageable);
@@ -52,7 +52,7 @@ public class VehicleServiceImplementation implements VehicleService {
         newVehicle.get().setLicensePlate(newVehicle.get().getLicensePlate().trim().toUpperCase());
         Optional<Vehicle> vehicle = vehicleRepository.findByLicensePlate(newVehicle.get().getLicensePlate());
         if (vehicle.isPresent()) {
-            if(newVehicle.get().getCylinderCapacity().isPresent() && vehicle.get().getCylinderCapacity().isPresent()
+            if (newVehicle.get().getCylinderCapacity().isPresent() && vehicle.get().getCylinderCapacity().isPresent()
                     && !newVehicle.get().getCylinderCapacity().get().equals(vehicle.get().getCylinderCapacity().get())) {
                 vehicle.get().setCylinderCapacity(newVehicle.get().getCylinderCapacity());
                 vehicle = Optional.ofNullable(vehicleRepository.save(vehicle.get()));
