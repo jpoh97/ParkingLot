@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class VehicleTypeServiceImplementationTests {
