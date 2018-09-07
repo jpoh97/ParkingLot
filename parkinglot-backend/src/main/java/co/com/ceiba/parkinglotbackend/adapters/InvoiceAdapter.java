@@ -21,6 +21,7 @@ public final class InvoiceAdapter {
     }
 
     public static Page<InvoiceDTO> invoiceListToDtoList(Page<Invoice> invoices) {
+        // return invoices.map(invoice -> invoiceToDto(invoice));
         return invoices.map(InvoiceAdapter::invoiceToDto);
     }
 }
