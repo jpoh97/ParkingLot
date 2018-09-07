@@ -20,8 +20,13 @@ public final class InvoiceAdapter {
         return modelMapper.map(invoiceDTO, Invoice.class);
     }
 
+    /**
+     * Equivalent to invoices.map(invoice -> invoiceToDto(invoice))
+     *
+     * @param invoices from an invoice page
+     * @return invoiceDTO page
+     */
     public static Page<InvoiceDTO> invoiceListToDtoList(Page<Invoice> invoices) {
-        // return invoices.map(invoice -> invoiceToDto(invoice));
         return invoices.map(InvoiceAdapter::invoiceToDto);
     }
 }
