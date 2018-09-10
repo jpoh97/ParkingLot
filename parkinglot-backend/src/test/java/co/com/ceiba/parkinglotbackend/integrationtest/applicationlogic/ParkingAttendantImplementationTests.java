@@ -62,7 +62,7 @@ public class ParkingAttendantImplementationTests {
     private ParkingCalendarTestDataBuilder parkingCalendarTestDataBuilder;
 
     public ParkingAttendantImplementationTests() {
-        VehicleTestDataBuilder vehicleTestDataBuilder = new VehicleTestDataBuilder();
+        var vehicleTestDataBuilder = new VehicleTestDataBuilder();
         parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();
         vehicle = vehicleTestDataBuilder.build();
     }

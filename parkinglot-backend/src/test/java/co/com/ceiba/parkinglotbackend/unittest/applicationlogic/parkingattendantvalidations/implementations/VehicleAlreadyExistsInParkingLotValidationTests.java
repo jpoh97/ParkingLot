@@ -34,8 +34,8 @@ public class VehicleAlreadyExistsInParkingLotValidationTests {
     private Invoice invoice;
 
     public VehicleAlreadyExistsInParkingLotValidationTests() {
-        VehicleTestDataBuilder vehicleTestDataBuilder = new VehicleTestDataBuilder();
-        InvoiceTestDataBuilder invoiceTestDataBuilder = new InvoiceTestDataBuilder();
+        var vehicleTestDataBuilder = new VehicleTestDataBuilder();
+        var invoiceTestDataBuilder = new InvoiceTestDataBuilder();
         vehicle = vehicleTestDataBuilder.build();
         invoice = invoiceTestDataBuilder.build();
     }
