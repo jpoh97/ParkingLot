@@ -8,7 +8,7 @@ pipeline {
     }
     tools {
         jdk 'JDK10_Centos'
-        gradle 'Gradle4.7_Centos'
+        gradle 'Gradle4.5_Centos'
     }
     stages {
         stage('Checkout') {
