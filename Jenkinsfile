@@ -7,8 +7,8 @@ pipeline {
         disableConcurrentBuilds()
     }
     tools {
-        jdk 'JDK8_Centos'
-        gradle 'Gradle4.5_Centos'
+        jdk 'JDK10_Centos'
+        gradle 'Gradle4.7_Centos'
     }
     stages {
         stage('Checkout') {
