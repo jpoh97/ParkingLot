@@ -35,7 +35,7 @@ public class InvalidDayLicensePlateValidationTests {
     private static final String LICENSE_PLATE_DOES_NOT_START_WITH_A = "ssh42a";
 
     public InvalidDayLicensePlateValidationTests() {
-        var parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();
+        ParkingCalendarTestDataBuilder parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();
         sunday = parkingCalendarTestDataBuilder.build();
         monday = parkingCalendarTestDataBuilder.build().plusDays(1);
     }

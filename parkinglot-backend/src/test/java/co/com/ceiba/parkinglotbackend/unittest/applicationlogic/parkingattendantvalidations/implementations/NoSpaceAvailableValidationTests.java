@@ -39,8 +39,8 @@ public class NoSpaceAvailableValidationTests {
     private Vehicle vehicle;
 
     public NoSpaceAvailableValidationTests() {
-        var vehicleTypeTestDataBuilder = new VehicleTypeTestDataBuilder();
-        var vehicleTestDataBuilder = new VehicleTestDataBuilder();
+        VehicleTypeTestDataBuilder vehicleTypeTestDataBuilder = new VehicleTypeTestDataBuilder();
+        VehicleTestDataBuilder vehicleTestDataBuilder = new VehicleTestDataBuilder();
         vehicle = vehicleTestDataBuilder.build();
         vehicleType = vehicleTypeTestDataBuilder.build();
     }

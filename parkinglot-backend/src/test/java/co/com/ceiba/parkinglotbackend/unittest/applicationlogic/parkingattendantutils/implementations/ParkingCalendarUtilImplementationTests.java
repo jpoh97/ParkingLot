@@ -20,7 +20,7 @@ public class ParkingCalendarUtilImplementationTests {
     private LocalDateTime monday;
 
     public ParkingCalendarUtilImplementationTests() {
-        var parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();
+        ParkingCalendarTestDataBuilder parkingCalendarTestDataBuilder = new ParkingCalendarTestDataBuilder();
         sunday = parkingCalendarTestDataBuilder.build();
         monday = parkingCalendarTestDataBuilder.build().plusDays(1);
     }

@@ -64,14 +64,14 @@ public class ParkingAttendantImplementation implements ParkingAttendant {
             throw new VehicleDoesNotExistException();
         }
 
-        var currentParkingRates = parkingRatesService.getCurrentParkingRatesFor(vehicle.get().getVehicleType(),
+        ParkingRates currentParkingRates = parkingRatesService.getCurrentParkingRatesFor(vehicle.get().getVehicleType(),
                 vehicle.get().getCylinderCapacity());
 
         if (!Optional.ofNullable(currentParkingRates).isPresent()) {
             throw new VehicleDataException();
         }
 
-        var invoice = new Invoice(vehicle.get(), parkingCalendarUtil.getTodayDate(), currentParkingRates);
+        Invoice invoice = new Invoice(vehicle.get(), parkingCalendarUtil.getTodayDate(), currentParkingRates);
         invoice = invoiceService.save(invoice);
 
         return invoice;
