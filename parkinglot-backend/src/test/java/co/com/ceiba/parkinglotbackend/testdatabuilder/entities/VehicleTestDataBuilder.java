@@ -1,7 +1,7 @@
 package co.com.ceiba.parkinglotbackend.testdatabuilder.entities;
 
-import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
-import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Vehicle;
+import co.com.ceiba.parkinglotbackend.persistence.entities.VehicleType;
 
 import java.time.LocalDateTime;
 

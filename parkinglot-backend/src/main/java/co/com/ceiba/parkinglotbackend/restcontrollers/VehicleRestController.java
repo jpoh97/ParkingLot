@@ -1,10 +1,10 @@
 package co.com.ceiba.parkinglotbackend.restcontrollers;
 
 import co.com.ceiba.parkinglotbackend.adapters.InvoiceAdapter;
-import co.com.ceiba.parkinglotbackend.applicationlogic.ParkingAttendant;
-import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
-import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
-import co.com.ceiba.parkinglotbackend.core.services.VehicleService;
+import co.com.ceiba.parkinglotbackend.businesslogic.parkingattendant.ParkingAttendant;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Invoice;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Vehicle;
+import co.com.ceiba.parkinglotbackend.businesslogic.VehicleService;
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 import co.com.ceiba.parkinglotbackend.dtos.VehicleDTO;
 import co.com.ceiba.parkinglotbackend.exceptions.BaseException;

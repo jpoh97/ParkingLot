@@ -1,7 +1,7 @@
 package co.com.ceiba.parkinglotbackend.unittest.adapters;
 
 import co.com.ceiba.parkinglotbackend.adapters.InvoiceAdapter;
-import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Invoice;
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.dtos.InvoiceDTOTestDataBuilder;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.InvoiceTestDataBuilder;

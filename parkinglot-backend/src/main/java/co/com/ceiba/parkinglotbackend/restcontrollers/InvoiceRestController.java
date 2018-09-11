@@ -1,7 +1,7 @@
 package co.com.ceiba.parkinglotbackend.restcontrollers;
 
 import co.com.ceiba.parkinglotbackend.adapters.InvoiceAdapter;
-import co.com.ceiba.parkinglotbackend.core.services.InvoiceService;
+import co.com.ceiba.parkinglotbackend.businesslogic.InvoiceService;
 import co.com.ceiba.parkinglotbackend.dtos.InvoiceDTO;
 import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
 import org.springframework.data.domain.Page;

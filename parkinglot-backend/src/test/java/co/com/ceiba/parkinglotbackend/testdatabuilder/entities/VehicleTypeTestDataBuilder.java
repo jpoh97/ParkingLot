@@ -1,6 +1,6 @@
 package co.com.ceiba.parkinglotbackend.testdatabuilder.entities;
 
-import co.com.ceiba.parkinglotbackend.core.entities.VehicleType;
+import co.com.ceiba.parkinglotbackend.persistence.entities.VehicleType;
 
 public class VehicleTypeTestDataBuilder {
 

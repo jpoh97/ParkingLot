@@ -1,6 +1,6 @@
 package co.com.ceiba.parkinglotbackend.adapters;
 
-import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.dtos.VehicleDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;

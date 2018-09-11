@@ -1,7 +1,7 @@
 package co.com.ceiba.parkinglotbackend.unittest.adapters;
 
 import co.com.ceiba.parkinglotbackend.adapters.VehicleAdapter;
-import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Vehicle;
 import co.com.ceiba.parkinglotbackend.dtos.VehicleDTO;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.dtos.VehicleDTOTestDataBuilder;
 import co.com.ceiba.parkinglotbackend.testdatabuilder.entities.VehicleTestDataBuilder;

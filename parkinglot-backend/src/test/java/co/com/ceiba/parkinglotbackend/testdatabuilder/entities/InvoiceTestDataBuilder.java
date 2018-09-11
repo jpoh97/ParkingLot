@@ -1,8 +1,8 @@
 package co.com.ceiba.parkinglotbackend.testdatabuilder.entities;
 
-import co.com.ceiba.parkinglotbackend.core.entities.Invoice;
-import co.com.ceiba.parkinglotbackend.core.entities.ParkingRates;
-import co.com.ceiba.parkinglotbackend.core.entities.Vehicle;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Invoice;
+import co.com.ceiba.parkinglotbackend.persistence.entities.ParkingRates;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Vehicle;
 
 import java.time.LocalDateTime;
 

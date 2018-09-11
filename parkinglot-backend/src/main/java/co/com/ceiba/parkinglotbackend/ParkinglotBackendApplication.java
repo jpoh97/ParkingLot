@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @SpringBootApplication
-@EnableJpaRepositories("co.com.ceiba.parkinglotbackend.core.repositories")
-@EntityScan("co.com.ceiba.parkinglotbackend.core.entities")
+@EnableJpaRepositories("co.com.ceiba.parkinglotbackend.persistence.repositories")
+@EntityScan("co.com.ceiba.parkinglotbackend.persistence.entities")
 @ComponentScan("co.com.ceiba.parkinglotbackend")
 @EnableJpaAuditing
 @EnableTransactionManagement

@@ -1,0 +1,31 @@
+package co.com.ceiba.parkinglotbackend.businesslogic.parkingattendant.parkingattendantvalidations.implementations;
+
+import co.com.ceiba.parkinglotbackend.businesslogic.parkingattendant.parkingattendantvalidations.ParkingValidation;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Invoice;
+import co.com.ceiba.parkinglotbackend.persistence.entities.Vehicle;
+import co.com.ceiba.parkinglotbackend.businesslogic.InvoiceService;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.InvoiceDataException;
+import co.com.ceiba.parkinglotbackend.exceptions.implementations.VehicleAlreadyExistsInParkingLotException;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+
+@Component
+public class VehicleAlreadyExistsInParkingLotValidation implements ParkingValidation {
+
+    private final InvoiceService invoiceService;
+
+    public VehicleAlreadyExistsInParkingLotValidation(InvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
+    }
+
+    @Override
+    public void execute(Optional<Vehicle> vehicle) throws VehicleAlreadyExistsInParkingLotException, InvoiceDataException {
+        if (vehicle.isPresent()) {
+            Optional<Invoice> invoice = invoiceService.getVehicleInParking(vehicle.get().getLicensePlate());
+            if (invoice.isPresent()) {
+                throw new VehicleAlreadyExistsInParkingLotException();
+            }
+        }
+    }
+}
